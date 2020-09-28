@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1231
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Texturing", "Texturing\Texturing.vcxproj", "{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Debug|x64.ActiveCfg = Debug|x64
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Debug|x64.Build.0 = Debug|x64
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Debug|x86.ActiveCfg = Debug|Win32
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Debug|x86.Build.0 = Debug|Win32
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Release|x64.ActiveCfg = Release|x64
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Release|x64.Build.0 = Release|x64
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Release|x86.ActiveCfg = Release|Win32
+		{90E4BF1E-5CFB-434D-9C8B-580AE9993A33}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA70FD61-8779-4D87-A4D6-D59228BFA471}
+	EndGlobalSection
+EndGlobal
