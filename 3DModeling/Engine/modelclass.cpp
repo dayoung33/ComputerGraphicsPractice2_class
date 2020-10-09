@@ -28,6 +28,11 @@ bool ModelClass::Initialize(ID3D11Device* device, const wchar_t* modelFilename, 
 	bool result;
 
 	// Load in the model data,
+	result = ReadFileCounts(modelFilename);
+	if (!result)
+	{
+		return false;
+	}
 	result = LoadModel(modelFilename);
 	if (!result)
 	{
@@ -96,6 +101,8 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
     D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
 	int i;
+
+	m_indexCount = m_vertexCount;
 
 	// Create the vertex array.
 	vertices = new VertexType[m_vertexCount];
@@ -251,61 +258,258 @@ void ModelClass::ReleaseTexture()
 	return;
 }
 
-bool ModelClass::LoadModel(const wchar_t* filename)
+bool ModelClass::ReadFileCounts(const wchar_t * filename)
 {
 	ifstream fin;
 	char input;
-	int i;
 
-
-	// Open the model file.
+	// Open the file.
 	fin.open(filename);
 
-	// If it could not open the file then exit.
-	if (fin.fail())
+	// Check if it was successful in opening the file.
+	if (fin.fail() == true)
 	{
 		return false;
 	}
 
-	// Read up to the value of vertex count.
+	// Read from the file and continue to read until the end of the file is reached.
 	fin.get(input);
-	while (input != ':')
+	while (!fin.eof())
 	{
+		// If the line starts with 'v' then count either the vertex, the texture coordinates, or the normal vector.
+		if (input == 'v')
+		{
+			fin.get(input);
+			if (input == ' ') { m_vertexCount++; }
+			if (input == 't') { m_textureCount++; }
+			if (input == 'n') { m_normalCount++; }
+		}
+
+		// If the line starts with 'f' then increment the face count.
+		if (input == 'f')
+		{
+			fin.get(input);
+			if (input == ' ') { m_faceCount++; }
+		}
+
+		// Otherwise read in the remainder of the line.
+		while (input != '\n')
+		{
+			fin.get(input);
+		}
+
+		// Start reading the beginning of the next line.
 		fin.get(input);
 	}
 
-	// Read in the vertex count.
-	fin >> m_vertexCount;
+	// Close the file.
+	fin.close();
 
-	// Set the number of indices to be the same as the vertex count.
-	m_indexCount = m_vertexCount;
+	return true;
+}
 
+bool ModelClass::LoadModel(const wchar_t* filename)
+{
+	VertexType *vertices, *texcoords, *normals;
+	FaceType *faces;
+	ifstream fin;
+	int vertexIndex, texcoordIndex, normalIndex, faceIndex, vIndex, tIndex, nIndex;
+	char input, input2;
+	ofstream fout;
+
+
+	// Initialize the four data structures.
+	vertices = new VertexType[m_vertexCount];
+	if (!vertices)
+	{
+		return false;
+	}
+
+	texcoords = new VertexType[m_textureCount];
+	if (!texcoords)
+	{
+		return false;
+	}
+
+	normals = new VertexType[m_normalCount];
+	if (!normals)
+	{
+		return false;
+	}
+
+	faces = new FaceType[m_faceCount];
+	if (!faces)
+	{
+		return false;
+	}
+
+	// Initialize the indexes.
+	vertexIndex = 0;
+	texcoordIndex = 0;
+	normalIndex = 0;
+	faceIndex = 0;
+
+	// Open the file.
+	fin.open(filename);
+
+	// Check if it was successful in opening the file.
+	if (fin.fail() == true)
+	{
+		return false;
+	}
+
+	// Read in the vertices, texture coordinates, and normals into the data structures.
+	// Important: Also convert to left hand coordinate system since Maya uses right hand coordinate system.
+	fin.get(input);
+	while (!fin.eof())
+	{
+		if (input == 'v')
+		{
+			fin.get(input);
+
+			// Read in the vertices.
+			if (input == ' ')
+			{
+				fin >> vertices[vertexIndex].position.x >> vertices[vertexIndex].position.y >> vertices[vertexIndex].position.z;
+
+				// Invert the Z vertex to change to left hand system.
+				vertices[vertexIndex].position.z = vertices[vertexIndex].position.z * -1.0f;
+				vertexIndex++;
+			}
+
+			// Read in the texture uv coordinates.
+			if (input == 't')
+			{
+				fin >> texcoords[texcoordIndex].texture.x >> texcoords[texcoordIndex].texture.y;
+
+				// Invert the V texture coordinates to left hand system.
+				texcoords[texcoordIndex].texture.y = 1.0f - texcoords[texcoordIndex].texture.y;
+				texcoordIndex++;
+			}
+
+			// Read in the normals.
+			if (input == 'n')
+			{
+				fin >> normals[normalIndex].normal.x >> normals[normalIndex].normal.y >> normals[normalIndex].normal.z;
+
+				// Invert the Z normal to change to left hand system.
+				normals[normalIndex].normal.z = normals[normalIndex].normal.z * -1.0f;
+				normalIndex++;
+			}
+		}
+
+		// Read in the faces.
+		if (input == 'f')
+		{
+			fin.get(input);
+			if (input == ' ')
+			{
+				// Read the face data in backwards to convert it to a left hand system from right hand system.
+				fin >> faces[faceIndex].vIndex3 >> input2 >> faces[faceIndex].tIndex3 >> input2 >> faces[faceIndex].nIndex3
+					>> faces[faceIndex].vIndex2 >> input2 >> faces[faceIndex].tIndex2 >> input2 >> faces[faceIndex].nIndex2
+					>> faces[faceIndex].vIndex1 >> input2 >> faces[faceIndex].tIndex1 >> input2 >> faces[faceIndex].nIndex1;
+				faceIndex++;
+			}
+		}
+
+		// Read in the remainder of the line.
+		while (input != '\n')
+		{
+			fin.get(input);
+		}
+
+		// Start reading the beginning of the next line.
+		fin.get(input);
+	}
+
+	// Close the file.
+	fin.close();
 	// Create the model using the vertex count that was read in.
+	m_vertexCount = m_faceCount * 3;
 	m_model = new ModelType[m_vertexCount];
 	if (!m_model)
 	{
 		return false;
 	}
+	m_vertexCount = 0;
 
-	// Read up to the beginning of the data.
-	fin.get(input);
-	while (input != ':')
+	// Now loop through all the faces and output the three vertices for each face.
+	for (int i = 0; i < faceIndex; i++)
 	{
-		fin.get(input);
-	}
-	fin.get(input);
-	fin.get(input);
+		vIndex = faces[i].vIndex1 - 1;
+		tIndex = faces[i].tIndex1 - 1;
+		nIndex = faces[i].nIndex1 - 1;
 
-	// Read in the vertex data.
-	for (i = 0; i < m_vertexCount; i++)
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;
+
+		vIndex = faces[i].vIndex2 - 1;
+		tIndex = faces[i].tIndex2 - 1;
+		nIndex = faces[i].nIndex2 - 1;
+
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;
+
+		vIndex = faces[i].vIndex3 - 1;
+		tIndex = faces[i].tIndex3 - 1;
+		nIndex = faces[i].nIndex3 - 1;
+
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;	
+	}
+
+
+	// Release the four data structures.
+	if (vertices)
 	{
-		fin >> m_model[i].x >> m_model[i].y >> m_model[i].z;
-		fin >> m_model[i].tu >> m_model[i].tv;
-		fin >> m_model[i].nx >> m_model[i].ny >> m_model[i].nz;
+		delete[] vertices;
+		vertices = 0;
 	}
-
-	// Close the model file.
-	fin.close();
+	if (texcoords)
+	{
+		delete[] texcoords;
+		texcoords = 0;
+	}
+	if (normals)
+	{
+		delete[] normals;
+		normals = 0;
+	}
+	if (faces)
+	{
+		delete[] faces;
+		faces = 0;
+	}
 
 	return true;
 }
