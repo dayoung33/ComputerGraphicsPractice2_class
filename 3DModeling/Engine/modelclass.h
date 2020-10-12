@@ -40,6 +40,13 @@ private:
 		float nx, ny, nz;
 	};
 
+	struct FaceType
+	{
+		int vIndex1, vIndex2, vIndex3;
+		int tIndex1, tIndex2, tIndex3;
+		int nIndex1, nIndex2, nIndex3;
+	};
+
 public:
 	ModelClass();
 	ModelClass(const ModelClass&);
@@ -52,6 +59,7 @@ public:
 	int GetIndexCount();
 	ID3D11ShaderResourceView* GetTexture();
 
+	bool ReadFileCounts(const wchar_t *);
 	bool LoadModel(const wchar_t*);
 	void ReleaseModel();
 
@@ -66,7 +74,7 @@ private:
 
 private:
 	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
-	int m_vertexCount, m_indexCount;
+	int m_vertexCount, m_indexCount, m_textureCount, m_normalCount, m_faceCount;
 	TextureClass* m_Texture;
 
 	ModelType* m_model;
