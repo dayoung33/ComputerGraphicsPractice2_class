@@ -42,9 +42,9 @@ private:
 
 	struct FaceType
 	{
-		int vIndex1, vIndex2, vIndex3;
-		int tIndex1, tIndex2, tIndex3;
-		int nIndex1, nIndex2, nIndex3;
+		int vIndex1, vIndex2, vIndex3, vIndex4;
+		int tIndex1, tIndex2, tIndex3, tIndex4;
+		int nIndex1, nIndex2, nIndex3, nIndex4;
 	};
 
 public:
@@ -62,6 +62,8 @@ public:
 	bool ReadFileCounts(const wchar_t *);
 	bool LoadModel(const wchar_t*);
 	void ReleaseModel();
+
+	D3DMATRIX SetMatrix(float Distance, float rotation, float scale = 0.2f);
 
 
 private:

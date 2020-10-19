@@ -45,6 +45,9 @@ private:
 	D3DClass* m_D3D;
 	CameraClass* m_Camera;
 	ModelClass* m_Model;
+	ModelClass* m_Model2;
+	ModelClass* m_Model3;
+	ModelClass* m_Ground;
 	LightShaderClass* m_LightShader;
 	LightClass* m_Light;
 };

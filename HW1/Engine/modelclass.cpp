@@ -405,7 +405,8 @@ bool ModelClass::LoadModel(const wchar_t* filename)
 			if (input == ' ')
 			{
 				// Read the face data in backwards to convert it to a left hand system from right hand system.
-				fin >> faces[faceIndex].vIndex3 >> input2 >> faces[faceIndex].tIndex3 >> input2 >> faces[faceIndex].nIndex3
+				fin >> faces[faceIndex].vIndex4 >> input2 >> faces[faceIndex].tIndex4 >> input2 >> faces[faceIndex].nIndex4
+					>> faces[faceIndex].vIndex3 >> input2 >> faces[faceIndex].tIndex3 >> input2 >> faces[faceIndex].nIndex3
 					>> faces[faceIndex].vIndex2 >> input2 >> faces[faceIndex].tIndex2 >> input2 >> faces[faceIndex].nIndex2
 					>> faces[faceIndex].vIndex1 >> input2 >> faces[faceIndex].tIndex1 >> input2 >> faces[faceIndex].nIndex1;
 				faceIndex++;
@@ -425,7 +426,7 @@ bool ModelClass::LoadModel(const wchar_t* filename)
 	// Close the file.
 	fin.close();
 	// Create the model using the vertex count that was read in.
-	m_vertexCount = m_faceCount * 3;
+	m_vertexCount = m_faceCount * 6;
 	m_model = new ModelType[m_vertexCount];
 	if (!m_model)
 	{
@@ -486,6 +487,57 @@ bool ModelClass::LoadModel(const wchar_t* filename)
 		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
 
 		m_vertexCount++;	
+
+		vIndex = faces[i].vIndex1 - 1;
+		tIndex = faces[i].tIndex1 - 1;
+		nIndex = faces[i].nIndex1 - 1;
+
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;
+
+		vIndex = faces[i].vIndex3 - 1;
+		tIndex = faces[i].tIndex3 - 1;
+		nIndex = faces[i].nIndex3 - 1;
+
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;
+
+		vIndex = faces[i].vIndex4 - 1;
+		tIndex = faces[i].tIndex4 - 1;
+		nIndex = faces[i].nIndex4 - 1;
+
+		m_model[m_vertexCount].x = vertices[vIndex].position.x;
+		m_model[m_vertexCount].y = vertices[vIndex].position.y;
+		m_model[m_vertexCount].z = vertices[vIndex].position.z;
+
+		m_model[m_vertexCount].tu = texcoords[tIndex].texture.x;
+		m_model[m_vertexCount].tv = texcoords[tIndex].texture.y;
+
+		m_model[m_vertexCount].nx = normals[nIndex].normal.x;
+		m_model[m_vertexCount].ny = normals[nIndex].normal.y;
+		m_model[m_vertexCount].nz = normals[nIndex].normal.z;
+
+		m_vertexCount++;
 	}
 
 
@@ -523,4 +575,23 @@ void ModelClass::ReleaseModel()
 	}
 
 	return;
+}
+
+D3DMATRIX ModelClass::SetMatrix(float Distance, float rotation,float scale)
+{
+	D3DXMATRIX matWorld, matTans, matRot, matRotX, matScale;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixIdentity(&matRotX);
+
+	D3DXMatrixTranslation(&matTans, Distance, 0.f, 1.f);
+	D3DXMatrixScaling(&matScale, scale, scale, scale);
+	D3DXMatrixRotationX(&matRotX, -150.f);
+	D3DXMatrixRotationZ(&matRot, rotation);
+
+
+
+	matWorld = matScale * matRot * matTans * matRotX;
+
+	return matWorld;
 }
