@@ -581,15 +581,11 @@ D3DMATRIX ModelClass::SetMatrix(float Distance, float rotation,float scale)
 {
 	D3DXMATRIX matWorld, matTans, matRot, matRotX, matScale;
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixIdentity(&matRotX);
 
 	D3DXMatrixTranslation(&matTans, Distance, 0.f, 1.f);
 	D3DXMatrixScaling(&matScale, scale, scale, scale);
 	D3DXMatrixRotationX(&matRotX, -150.f);
-	D3DXMatrixRotationZ(&matRot, rotation);
-
-
+	D3DXMatrixRotationY(&matRot, rotation);
 
 	matWorld = matScale * matRot * matTans * matRotX;
 

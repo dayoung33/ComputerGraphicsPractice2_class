@@ -42,7 +42,6 @@
     <ClInclude Include="textureclass.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\lego obj.mtl" />
     <None Include="light.ps" />
     <None Include="light.vs" />
   </ItemGroup>

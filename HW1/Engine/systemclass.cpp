@@ -111,10 +111,6 @@ void SystemClass::Run()
 		{
 			done = true;
 		}
-		if (m_Input->IsKeyDown('1'))
-		{
-			
-		}
 
 		else
 		{
@@ -141,6 +137,22 @@ bool SystemClass::Frame()
 	if(m_Input->IsKeyDown(VK_ESCAPE))
 	{
 		return false;
+	}
+	if (m_Input->IsKeyDown('1'))
+	{
+		m_Graphics->OffAmbient();
+	}
+	if (m_Input->IsKeyDown('2'))
+	{
+		m_Graphics->OffDiffuse();
+	}
+	if (m_Input->IsKeyDown('3'))
+	{
+		m_Graphics->OffSpecular();
+	}
+	if (!m_Input->IsKeyDown('1') && !m_Input->IsKeyDown('2') && !m_Input->IsKeyDown('3'))
+	{
+		m_Graphics->OnLight();
 	}
 
 	// Do the frame processing for the graphics object.

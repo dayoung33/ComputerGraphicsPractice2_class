@@ -26,7 +26,10 @@ public:
 	void SetDirection(float, float, float);
 	void SetSpecularColor(float, float, float, float);
 	void SetSpecularPower(float);
+	void SetPosition(float, float, float);
+	
 
+	D3DXVECTOR4 GetPosition();
 	D3DXVECTOR4 GetAmbientColor();
 	D3DXVECTOR4 GetDiffuseColor();
 	D3DXVECTOR3 GetDirection();
@@ -34,6 +37,7 @@ public:
 	float GetSpecularPower();
 
 private:
+	D3DXVECTOR4 m_position;
 	D3DXVECTOR4 m_ambientColor;
 	D3DXVECTOR4 m_diffuseColor;
 	D3DXVECTOR3 m_direction;

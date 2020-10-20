@@ -38,6 +38,11 @@ public:
 	void Shutdown();
 	bool Frame();
 
+	void OffAmbient();
+	void OffDiffuse();
+	void OffSpecular();
+	void OnLight();
+
 private:
 	bool Render(float);
 
@@ -50,6 +55,8 @@ private:
 	ModelClass* m_Ground;
 	LightShaderClass* m_LightShader;
 	LightClass* m_Light;
+	LightClass *m_Light1, *m_Light2, *m_Light3, *m_Light4;
+
 };
 
 #endif
