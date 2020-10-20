@@ -54,6 +54,7 @@ private:
 	ModelClass* m_Model3;
 	ModelClass* m_Ground;
 	LightShaderClass* m_LightShader;
+	LightShaderClass* m_PointLightShader;
 	LightClass* m_Light;
 	LightClass *m_Light1, *m_Light2, *m_Light3, *m_Light4;
 
