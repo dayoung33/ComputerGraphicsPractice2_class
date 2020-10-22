@@ -41,6 +41,7 @@ public:
 	void OffAmbient();
 	void OffDiffuse();
 	void OffSpecular();
+	void OffPointLight();
 	void OnLight();
 
 private:
@@ -56,7 +57,7 @@ private:
 	LightShaderClass* m_LightShader;
 	LightShaderClass* m_PointLightShader;
 	LightClass* m_Light;
-	LightClass *m_Light1, *m_Light2, *m_Light3, *m_Light4;
+	LightClass *m_Light1, *m_Light2, *m_Light3;
 
 };
 

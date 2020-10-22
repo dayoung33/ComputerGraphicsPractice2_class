@@ -17,7 +17,6 @@ GraphicsClass::GraphicsClass()
 	m_Light1 = 0;
 	m_Light2 = 0;
 	m_Light3 = 0;
-	m_Light4 = 0;
 	m_Light = 0;
 }
 
@@ -87,7 +86,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	result = m_Model->Initialize(m_D3D->GetDevice(), L"./data/10436_Cactus_v1_max2010_it2.obj", L"./data/10436_Cactus_v1_Diffuse.dds");
 	result = m_Model2->Initialize(m_D3D->GetDevice(), L"./data/12330_Statue_v1_L2.obj", L"./data/DavidFixedDiff.jpg");
 	result = m_Model3->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
-	result = m_Ground->Initialize(m_D3D->GetDevice(), L"./data/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", L"./data/10450_Rectangular_Grass_Patch_v1_Diffuse.jpg");
+	result = m_Ground->Initialize(m_D3D->GetDevice(), L"./data/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", L"./data/stone01.dds");
 //	result = m_Model->Initialize(m_D3D->GetDevice(), "./data/chair.txt", L"./data/chair_d.dds");
 
 	if(!result)
@@ -147,7 +146,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Initialize the first light object.
 	m_Light1->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-	m_Light1->SetPosition(-3.0f, 3.0f, 3.0f);
+	m_Light1->SetPosition(30.0f, 1.0f, -20.0f);
+
 
 	// Create the second light object.
 	m_Light2 = new LightClass;
@@ -158,7 +158,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Initialize the second light object.
 	m_Light2->SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);
-	m_Light2->SetPosition(3.0f, 3.0f, 3.0f);
+	m_Light2->SetPosition(0.0f, 1.0f, -20.0f);
+
 
 	// Create the third light object.
 	m_Light3 = new LightClass;
@@ -169,19 +170,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Initialize the third light object.
 	m_Light3->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
-	m_Light3->SetPosition(-3.0f, 3.0f, -3.0f);
-
-	// Create the fourth light object.
-	m_Light4 = new LightClass;
-	if (!m_Light4)
-	{
-		return false;
-	}
-
-	// Initialize the fourth light object.
-	m_Light4->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light4->SetPosition(3.0f, 3.0f, -3.0f);
-
+	m_Light3->SetPosition(-30.0f, 1.0f, -20.0f);
 
 	return true;
 }
@@ -211,12 +200,6 @@ void GraphicsClass::Shutdown()
 	{
 		delete m_Light3;
 		m_Light3 = 0;
-	}
-
-	if (m_Light4)
-	{
-		delete m_Light4;
-		m_Light4 = 0;
 	}
 
 	// Release the light shader object.
@@ -317,12 +300,25 @@ void GraphicsClass::OffSpecular()
 	m_Light->SetSpecularPower(32000.0f);
 }
 
+void GraphicsClass::OffPointLight()
+{
+	m_Light1->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
+	m_Light2->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
+	m_Light3->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
 void GraphicsClass::OnLight()
 {
 	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 0.15f);
 	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetSpecularPower(32.0f);
+
+	m_Light1->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
+	m_Light2->SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);
+	m_Light3->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+
 }
 
 
@@ -337,13 +333,11 @@ bool GraphicsClass::Render(float rotation)
 	diffuseColor[0] = m_Light1->GetDiffuseColor();
 	diffuseColor[1] = m_Light2->GetDiffuseColor();
 	diffuseColor[2] = m_Light3->GetDiffuseColor();
-	diffuseColor[3] = m_Light4->GetDiffuseColor();
 
 	// Create the light position array from the four light positions.
 	lightPosition[0] = m_Light1->GetPosition();
 	lightPosition[1] = m_Light2->GetPosition();
 	lightPosition[2] = m_Light3->GetPosition();
-	lightPosition[3] = m_Light4->GetPosition();
 
 	// Clear the buffers to begin the scene.
 	m_D3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
@@ -361,7 +355,7 @@ bool GraphicsClass::Render(float rotation)
 
 	D3DXMatrixTranslation(&matTans, -27.f, 0.f, -10.f);
 	D3DXMatrixScaling(&matScale, 0.1f, 0.1f, 0.1f);
-	D3DXMatrixRotationX(&matRotX, -0.f);
+	D3DXMatrixRotationX(&matRotX, 0.f);
 	D3DXMatrixRotationY(&matRot, rotation);
 
 	worldMatrix = matScale * matRot * matTans * matRotX;
@@ -370,28 +364,28 @@ bool GraphicsClass::Render(float rotation)
 	// Render the model using the light shader.
 	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, 
 								   m_Model->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(), 
-								   m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+								   m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(), diffuseColor, lightPosition);
 	if (!result)
 	{
 		return false;
 	}
 
-	//D3DXMatrixTranslation(&matTans, 0.f, 0.f, -1.f);
-	//D3DXMatrixScaling(&matScale, 0.05f, 0.05f, 0.05f);
-	//D3DXMatrixRotationX(&matRotX, -150.f);
-	//D3DXMatrixRotationZ(&matRot, rotation);
+	D3DXMatrixTranslation(&matTans, 0.f, 0.f, -1.f);
+	D3DXMatrixScaling(&matScale, 0.05f, 0.05f, 0.05f);
+	D3DXMatrixRotationX(&matRotX, -150.f);
+	D3DXMatrixRotationZ(&matRot, rotation);
 
-	//worldMatrix = matScale * matRot * matTans * matRotX;
-	//m_Model2->Render(m_D3D->GetDeviceContext());
+	worldMatrix = matScale * matRot * matTans * matRotX;
+	m_Model2->Render(m_D3D->GetDeviceContext());
 
-	//result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model2->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-	//	m_Model2->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
-	//	m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model2->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		m_Model2->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
+		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(), diffuseColor, lightPosition);
 
-	//if (!result)
-	//{
-	//	return false;
-	//}
+	if (!result)
+	{
+		return false;
+	}
 
 	D3DXMatrixTranslation(&matTans, 27.f, 0.f, -2.f);
 	D3DXMatrixScaling(&matScale, 0.2f, 0.2f, 0.2f);
@@ -403,7 +397,7 @@ bool GraphicsClass::Render(float rotation)
 
 	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model3->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
 		m_Model3->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
-		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(), diffuseColor, lightPosition);
 	if (!result)
 	{
 		return false;
@@ -417,18 +411,12 @@ bool GraphicsClass::Render(float rotation)
 
 	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Ground->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
 		m_Ground->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
-		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(), diffuseColor, lightPosition);
 	if (!result)
 	{
 		return false;
 	}
 
-	result = m_PointLightShader->Render(m_D3D->GetDeviceContext(), m_Ground->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Ground->GetTexture(), diffuseColor, lightPosition);
-	if (!result)
-	{
-		return false;
-	}
 
 	// Present the rendered scene to the screen.
 	m_D3D->EndScene();

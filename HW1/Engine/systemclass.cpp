@@ -150,7 +150,11 @@ bool SystemClass::Frame()
 	{
 		m_Graphics->OffSpecular();
 	}
-	if (!m_Input->IsKeyDown('1') && !m_Input->IsKeyDown('2') && !m_Input->IsKeyDown('3'))
+	if (m_Input->IsKeyDown('4'))
+	{
+		m_Graphics->OffPointLight();
+	}
+	if (!m_Input->IsKeyDown('1') && !m_Input->IsKeyDown('2') && !m_Input->IsKeyDown('3') && !m_Input->IsKeyDown('4'))
 	{
 		m_Graphics->OnLight();
 	}

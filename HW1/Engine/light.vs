@@ -6,7 +6,7 @@
 /////////////
 // DEFINES //
 /////////////
-#define NUM_LIGHTS 4
+#define NUM_LIGHTS 3
 
 
 /////////////
@@ -17,6 +17,11 @@ cbuffer MatrixBuffer
 	matrix worldMatrix;
 	matrix viewMatrix;
 	matrix projectionMatrix;
+};
+cbuffer CameraBuffer
+{
+    float3 cameraPosition;
+	float padding;
 };
 
 cbuffer LightPositionBuffer
@@ -42,7 +47,8 @@ struct PixelInputType
 	float3 lightPos1 : TEXCOORD1;
 	float3 lightPos2 : TEXCOORD2;
 	float3 lightPos3 : TEXCOORD3;
-	float3 lightPos4 : TEXCOORD4;
+	float3 viewDirection : TEXCOORD4;
+
 };
 
 
@@ -75,17 +81,22 @@ PixelInputType LightVertexShader(VertexInputType input)
     // Calculate the position of the vertex in the world.
     worldPosition = mul(input.position, worldMatrix);
 
+	// Determine the viewing direction based on the position of the camera and the position of the vertex in the world.
+    output.viewDirection = cameraPosition.xyz - worldPosition.xyz;
+	
+    // Normalize the viewing direction vector.
+    output.viewDirection = normalize(output.viewDirection);
+
+
     // Determine the light positions based on the position of the lights and the position of the vertex in the world.
     output.lightPos1.xyz = lightPosition[0].xyz - worldPosition.xyz;
     output.lightPos2.xyz = lightPosition[1].xyz - worldPosition.xyz;
     output.lightPos3.xyz = lightPosition[2].xyz - worldPosition.xyz;
-    output.lightPos4.xyz = lightPosition[3].xyz - worldPosition.xyz;
 
     // Normalize the light position vectors.
     output.lightPos1 = normalize(output.lightPos1);
     output.lightPos2 = normalize(output.lightPos2);
     output.lightPos3 = normalize(output.lightPos3);
-    output.lightPos4 = normalize(output.lightPos4);
 
     return output;
 }
