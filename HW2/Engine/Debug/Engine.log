@@ -1,0 +1,4 @@
+﻿  graphicsclass.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\github\computergraphicspractice2_class\hw2\engine\graphicsclass.cpp(452): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+  Engine.vcxproj -> D:\Github\ComputerGraphicsPractice2_class\HW2\Debug\Engine.exe
