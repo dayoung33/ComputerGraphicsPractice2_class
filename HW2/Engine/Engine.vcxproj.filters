@@ -5,136 +5,225 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\00.System">
+      <UniqueIdentifier>{7fa1c7c7-d56f-431a-87f5-ad22ed65b238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Graphic">
+      <UniqueIdentifier>{28c439ff-eb60-4fcb-9fe1-4565735355f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Bitmap">
+      <UniqueIdentifier>{e1df707d-1b02-468e-8041-dfc1afd0a8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Camera">
+      <UniqueIdentifier>{3cd8cfb0-441a-4c80-ad50-106c1a699846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\D3D">
+      <UniqueIdentifier>{2d5bf09e-edee-48d8-aaa5-f170c00c038e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Font">
+      <UniqueIdentifier>{d7740ec6-28d7-4dd3-b5d7-5f4d0801bf83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Input">
+      <UniqueIdentifier>{adb57e6f-6eab-452c-8fa1-9d73ef1de8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Light">
+      <UniqueIdentifier>{f25d39b2-bd5a-4344-8382-37c104deeb08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Model">
+      <UniqueIdentifier>{f563a3a5-0734-4304-87de-21f69cba5cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Text">
+      <UniqueIdentifier>{3fe59d1c-34b6-4552-846f-d493a37768b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\Texture">
+      <UniqueIdentifier>{a9d050d3-83bb-41e3-bf14-856dcfadde44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\SkyBox">
+      <UniqueIdentifier>{dba1f302-5bf9-4947-a25f-ce39afaedbc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\System">
+      <UniqueIdentifier>{dfbe7942-7576-42ed-8b7d-215e89a2b7cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject">
+      <UniqueIdentifier>{a5f6400e-8cfe-4d64-bd9e-de0443a463cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\01.Player">
+      <UniqueIdentifier>{d8303989-c473-4837-96f8-04374c57ad55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\00.Table">
+      <UniqueIdentifier>{36e8f542-ea88-40ed-9450-13fbf7c7de61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\03.Ball">
+      <UniqueIdentifier>{204ac3b4-588e-45df-acb9-be4545e193cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\99.GameObjectMgr">
+      <UniqueIdentifier>{e18285fb-dccf-4388-b3d0-f995aed6f312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\02.AIPlayer">
+      <UniqueIdentifier>{edcdb414-dcc3-4af4-9ff2-2657e33161a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cameraclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="d3dclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="inputclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="modelclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="bitmapclass.cpp">
+      <Filter>소스 파일\00.System\Bitmap</Filter>
     </ClCompile>
-    <ClCompile Include="systemclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cameraclass.cpp">
+      <Filter>소스 파일\00.System\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="textureclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="lightclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="lightshaderclass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="graphicsclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="d3dclass.cpp">
+      <Filter>소스 파일\00.System\D3D</Filter>
     </ClCompile>
     <ClCompile Include="fontclass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
     </ClCompile>
     <ClCompile Include="fontshaderclass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
     </ClCompile>
-    <ClCompile Include="textclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="graphicsclass.cpp">
+      <Filter>소스 파일\00.System\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="bitmapclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="inputclass.cpp">
+      <Filter>소스 파일\00.System\Input</Filter>
     </ClCompile>
-    <ClCompile Include="textureshaderclass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="lightclass.cpp">
+      <Filter>소스 파일\00.System\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="lightshaderclass.cpp">
+      <Filter>소스 파일\00.System\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="modelclass.cpp">
+      <Filter>소스 파일\00.System\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="systemclass.cpp">
+      <Filter>소스 파일\00.System\System</Filter>
     </ClCompile>
     <ClCompile Include="skyboxshader.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\00.System\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="textureclass.cpp">
+      <Filter>소스 파일\00.System\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="textureshaderclass.cpp">
+      <Filter>소스 파일\00.System\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="textclass.cpp">
+      <Filter>소스 파일\00.System\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\01.GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectMgr.cpp">
+      <Filter>소스 파일\01.GameObject\99.GameObjectMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="TableClass.cpp">
+      <Filter>소스 파일\01.GameObject\00.Table</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\01.GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="AIPlayer.cpp">
+      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bitmapclass.h">
+      <Filter>소스 파일\00.System\Bitmap</Filter>
+    </ClInclude>
     <ClInclude Include="cameraclass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\00.System\Camera</Filter>
     </ClInclude>
     <ClInclude Include="d3dclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inputclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="modelclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="systemclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="textureclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="lightclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="lightshaderclass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="graphicsclass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\00.System\D3D</Filter>
     </ClInclude>
     <ClInclude Include="fontclass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
     </ClInclude>
     <ClInclude Include="fontshaderclass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
     </ClInclude>
-    <ClInclude Include="textclass.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="graphicsclass.h">
+      <Filter>소스 파일\00.System\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="bitmapclass.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="inputclass.h">
+      <Filter>소스 파일\00.System\Input</Filter>
     </ClInclude>
-    <ClInclude Include="textureshaderclass.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="lightclass.h">
+      <Filter>소스 파일\00.System\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="lightshaderclass.h">
+      <Filter>소스 파일\00.System\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="modelclass.h">
+      <Filter>소스 파일\00.System\Model</Filter>
     </ClInclude>
     <ClInclude Include="skyboxshader.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\00.System\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="systemclass.h">
+      <Filter>소스 파일\00.System\System</Filter>
+    </ClInclude>
+    <ClInclude Include="textclass.h">
+      <Filter>소스 파일\00.System\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="textureclass.h">
+      <Filter>소스 파일\00.System\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="textureshaderclass.h">
+      <Filter>소스 파일\00.System\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\01.GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectMgr.h">
+      <Filter>소스 파일\01.GameObject\99.GameObjectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="TableClass.h">
+      <Filter>소스 파일\01.GameObject\00.Table</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\01.GameObject\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="AIPlayer.h">
+      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="light.vs">
-      <Filter>리소스 파일</Filter>
-    </None>
-    <None Include="light.ps">
-      <Filter>리소스 파일</Filter>
-    </None>
     <None Include="font.ps">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
     </None>
     <None Include="font.vs">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\Font</Filter>
+    </None>
+    <None Include="light.ps">
+      <Filter>소스 파일\00.System\Light</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>소스 파일\00.System\Light</Filter>
     </None>
     <None Include="texture.ps">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\Texture</Filter>
     </None>
     <None Include="texture.vs">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\Texture</Filter>
     </None>
     <None Include="skybox.ps">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\SkyBox</Filter>
     </None>
     <None Include="skybox.vs">
-      <Filter>리소스 파일</Filter>
+      <Filter>소스 파일\00.System\SkyBox</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -15,7 +15,6 @@ LightShaderClass::LightShaderClass()
 	m_lightBuffer = 0;
 }
 
-
 LightShaderClass::LightShaderClass(const LightShaderClass& other)
 {
 }
@@ -60,7 +59,8 @@ bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount
 
 
 	// Set the shader parameters that it will use for rendering.
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture, lightDirection, ambientColor, diffuseColor,
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture,
+		lightDirection, ambientColor, diffuseColor,
 		cameraPosition, specularColor, specularPower,pointDiffuseColor,lightPosition);
 	if (!result)
 	{
@@ -73,25 +73,23 @@ bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount
 	return true;
 }
 
-//bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
-//	D3DXMATRIX projectionMatrix, ID3D11ShaderResourceView* texture, D3DXVECTOR4 diffuseColor[],
-//	D3DXVECTOR4 lightPosition[]) 
-//{
-//	bool result;
-//
-//
-//	// Set the shader parameters that it will use for rendering.
-//	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture, diffuseColor, lightPosition);
-//	if (!result)
-//	{
-//		return false;
-//	}
-//
-//	// Now render the prepared buffers with the shader.
-//	RenderShader(deviceContext, indexCount);
-//
-//	return true;
-//}
+bool LightShaderClass::Render(ID3D11DeviceContext* deviceContext, GameObject* pGameObject, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix,
+	CameraClass* pCamera, LightClass* pLight, D3DXVECTOR4 vDiffusecolor[], D3DXVECTOR4 vLightPosition[])
+{
+	bool result;
+	// Set the shader parameters that it will use for rendering.
+	result = SetShaderParameters(deviceContext, pGameObject->GetWorld(), viewMatrix, projectionMatrix,
+		pGameObject->GetTexture(), pLight->GetDirection(), pLight->GetAmbientColor(),
+		pLight->GetDiffuseColor(), pCamera->GetPosition(), pLight->GetSpecularColor(),
+		pLight->GetSpecularPower(),vDiffusecolor,vLightPosition);
+	if (!result)
+	{
+		return false;
+	}
+	// Now render the prepared buffers with the shader.
+	RenderShader(deviceContext, pGameObject->GetIndexCount());
+	return true;
+}
 
 
 bool LightShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, const wchar_t* vsFilename, const wchar_t* psFilename)

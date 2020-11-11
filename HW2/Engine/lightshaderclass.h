@@ -18,7 +18,10 @@ const int NUM_LIGHTS = 3;
 #include <fstream>
 using namespace std;
 
-
+#include "d3dclass.h"
+#include "GameObject.h"
+#include "cameraclass.h"
+#include "lightclass.h"
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: LightShaderClass
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +69,8 @@ public:
 	void Shutdown();
 	bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR3, D3DXVECTOR4, D3DXVECTOR4,
 		D3DXVECTOR3, D3DXVECTOR4, float, D3DXVECTOR4[], D3DXVECTOR4[]);
-	//bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR4[], D3DXVECTOR4[]);
+	bool Render(ID3D11DeviceContext*, GameObject*, D3DXMATRIX, D3DXMATRIX, CameraClass*, LightClass*,
+		D3DXVECTOR4[], D3DXVECTOR4[]);
 
 private:
 	bool InitializeShader(ID3D11Device*, HWND, const wchar_t*, const wchar_t*);

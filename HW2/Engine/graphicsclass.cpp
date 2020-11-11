@@ -2,13 +2,15 @@
 // Filename: graphicsclass.cpp
 ////////////////////////////////////////////////////////////////////////////////
 #include "graphicsclass.h"
-
+#include "TableClass.h"
+#include "Player.h"
+#include "Ball.h"
+#include "AIPlayer.h"
 
 GraphicsClass::GraphicsClass()
 {
 	m_D3D = 0;
 	m_Camera = 0;
-	m_Ground = 0;
 	m_LightShader = 0;
 	m_PointLightShader = 0;
 	m_Light1 = 0;
@@ -19,6 +21,7 @@ GraphicsClass::GraphicsClass()
 	m_Bitmap = 0;
 	m_Text = 0;
 	m_SkyBoxShader = 0;
+	m_pGameObjectMgr = 0;
 }
 
 
@@ -60,8 +63,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 0.0f, -100.0f);
-	m_Camera->SetRotation(0.0f, 40.0f, 0.0f);
+	m_Camera->SetPosition(0.0f, 100.0f, -150.0f);
+	m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
 
 	m_Camera->Render();
 	m_Camera->GetViewMatrix(baseViewMatrix);
@@ -112,30 +115,65 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	m_SkyBoxShader = new SkyboxShaderClass;
-	if (!m_SkyBoxShader)
+	//m_SkyBoxShader = new SkyboxShaderClass;
+	//if (!m_SkyBoxShader)
+	//	return false;
+
+	//result = m_SkyBoxShader->Initialize(m_D3D->GetDevice(), hwnd);
+	//if (!result)
+	//{
+	//	MessageBox(hwnd, L"Could not initialize the SkyBox object.", L"Error", MB_OK);
+	//	return false;
+	//}
+
+	m_pGameObjectMgr = new GameObjectMgr;
+	if (!m_pGameObjectMgr)
 		return false;
 
-	result = m_SkyBoxShader->Initialize(m_D3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the SkyBox object.", L"Error", MB_OK);
-		return false;
-	}
+	GameObject* pGameObject = nullptr;
+
 	// Create the model object.
-	m_Ground = new ModelClass;
-	if (!m_Ground)
+	pGameObject = new TableClass;
+	if (!pGameObject)
 		return false;
-
-
-	result = m_Ground->Initialize(m_D3D->GetDevice(), L"./data/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", L"./data/pingpong.png");
-//	result = m_Model->Initialize(m_D3D->GetDevice(), "./data/chair.txt", L"./data/chair_d.dds");
-
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", L"./data/pingpong.png");
 	if(!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
+	m_pGameObjectMgr->PushGameObject(pGameObject);
+
+	pGameObject = new Ball;
+	if (!pGameObject)
+		return false;
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12190_Heart_v1_L3.obj", L"./data/red.png");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	m_pGameObjectMgr->PushGameObject(pGameObject);
+
+	pGameObject = new Player;
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	dynamic_cast<Player*>(pGameObject)->Init(m_Input);
+	m_pGameObjectMgr->PushGameObject(pGameObject);
+
+	pGameObject = new AIPlayer;
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	m_pGameObjectMgr->PushGameObject(pGameObject);
+
 
 	// Create the light shader object.
 	m_LightShader = new LightShaderClass;
@@ -220,6 +258,12 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicsClass::Shutdown()
 {
+	if (m_pGameObjectMgr)
+	{
+		delete m_pGameObjectMgr;
+		m_pGameObjectMgr = 0;
+	}
+
 	// Release the light object.
 	if(m_Light)
 	{
@@ -288,14 +332,6 @@ void GraphicsClass::Shutdown()
 		delete m_SkyBoxShader;
 		m_SkyBoxShader = 0;
 	}
-	// Release the model object.
-
-	if (m_Ground)
-	{
-		m_Ground->Shutdown();
-		delete m_Ground;
-		m_Ground = 0;
-	}
 
 	// Release the camera object.
 	if(m_Camera)
@@ -327,7 +363,11 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	{
 		rotation -= 360.0f;
 	}
-	
+	result = m_pGameObjectMgr->Frame();
+	if (!result)
+	{
+		return false;
+	}
 	// Render the graphics scene.
 	result = Render(rotation);
 	if(!result)
@@ -444,24 +484,7 @@ bool GraphicsClass::Render(float rotation)
 		return false;
 	}*/
 
-	// Rotate the world matrix by the rotation value so that the triangle will spin.
-	D3DXMATRIX matTans, matRot, matRotX, matScale;
-
-	D3DXMatrixTranslation(&matTans, 0.f, 20.f, 10.f);
-	D3DXMatrixScaling(&matScale, 0.4f, 0.4f, 0.4f);
-	D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
-
-	worldMatrix = matScale * matTans * matRotX;
-	m_Ground->Render(m_D3D->GetDeviceContext());	
-
-	result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Ground->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Ground->GetTexture(), m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
-		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(), diffuseColor, lightPosition);
-	if (!result)
-	{
-		return false;
-	}
-
+	m_pGameObjectMgr->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix,projectionMatrix, m_Camera, m_Light,diffuseColor,lightPosition);
 
 	// Present the rendered scene to the screen.
 	m_D3D->EndScene();
@@ -482,4 +505,9 @@ void GraphicsClass::CamMoveBF(float z)
 void GraphicsClass::CamLookRotate(DIMOUSESTATE & curMouse, DIMOUSESTATE & nextMouse)
 {
 	m_Camera->LookRotation(curMouse, nextMouse);
+}
+
+void GraphicsClass::SetInput(InputClass * _Input)
+{
+	m_Input = _Input;
 }

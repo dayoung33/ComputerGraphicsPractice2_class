@@ -22,6 +22,8 @@
 #include "bitmapclass.h"
 #include "textclass.h"
 #include "skyboxshader.h"
+#include "GameObjectMgr.h"
+#include "inputclass.h"
 
 /////////////
 // GLOBALS //
@@ -54,16 +56,13 @@ public:
 	void CamMoveLR(float x);
 	void CamMoveBF(float z);
 	void CamLookRotate(DIMOUSESTATE& curMouse, DIMOUSESTATE& nextMouse);
-
+	void SetInput(InputClass* _Input);
 private:
 	bool Render(float);
-
-
 
 private:
 	D3DClass* m_D3D;
 	CameraClass* m_Camera;
-	ModelClass* m_Ground;
 	LightShaderClass* m_LightShader;
 	LightShaderClass* m_PointLightShader;
 	LightClass* m_Light;
@@ -72,6 +71,9 @@ private:
 	TextClass* m_Text;
 	BitmapClass* m_Bitmap;
 	SkyboxShaderClass* m_SkyBoxShader;
+	InputClass* m_Input;
+	GameObjectMgr* m_pGameObjectMgr;
+
 };
 
 #endif

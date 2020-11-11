@@ -1,4 +1,8 @@
-﻿  graphicsclass.cpp
+﻿  AIPlayer.cpp
+c:\users\rkek3\documents\github\computergraphicspractice2_class\hw2\engine\aiplayer.cpp(27): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+  graphicsclass.cpp
   c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\github\computergraphicspractice2_class\hw2\engine\graphicsclass.cpp(452): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-  Engine.vcxproj -> D:\Github\ComputerGraphicsPractice2_class\HW2\Debug\Engine.exe
+  Player.cpp
+c:\users\rkek3\documents\github\computergraphicspractice2_class\hw2\engine\player.cpp(33): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+  코드를 생성하고 있습니다...
+  Engine.vcxproj -> C:\Users\rkek3\Documents\GitHub\ComputerGraphicsPractice2_class\HW2\Debug\Engine.exe
