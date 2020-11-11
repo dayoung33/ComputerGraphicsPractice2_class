@@ -14,9 +14,10 @@ public:
 
 private:
 	void Move();
+	void Reset();
 
 private:
-	D3DXVECTOR3 m_vPos;
+	D3DXVECTOR3 m_vOriginPos;
 	D3DXVECTOR3 m_vSize;
 };
 

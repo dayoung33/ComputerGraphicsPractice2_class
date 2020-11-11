@@ -2,7 +2,8 @@
 
 AIPlayer::AIPlayer()
 {
-	m_vPos = { -55.f, 60.f, 5.f };
+	m_vPos = { -90.f, 0.f, 5.f };
+	m_vOriginPos = m_vPos;
 }
 
 AIPlayer::AIPlayer(AIPlayer &)
@@ -36,4 +37,9 @@ void AIPlayer::Shutdown()
 
 void AIPlayer::Move()
 {
+}
+
+void AIPlayer::Reset()
+{
+	m_vPos = m_vOriginPos;
 }

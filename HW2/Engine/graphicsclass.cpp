@@ -144,7 +144,28 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	m_pGameObjectMgr->PushGameObject(pGameObject);
 
-	pGameObject = new Ball;
+	GameObject* pPlayer = nullptr;
+	pPlayer = new Player;
+	result = pPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	dynamic_cast<Player*>(pPlayer)->Init(m_Input);
+	m_pGameObjectMgr->PushGameObject(pPlayer);
+
+	GameObject* pAIPlayer = nullptr;
+	pAIPlayer = new AIPlayer;
+	result = pAIPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	m_pGameObjectMgr->PushGameObject(pAIPlayer);
+
+		pGameObject = new Ball;
 	if (!pGameObject)
 		return false;
 	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12190_Heart_v1_L3.obj", L"./data/red.png");
@@ -153,27 +174,9 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
+	dynamic_cast<Ball*>(pGameObject)->SetPlayer(pPlayer);
+	dynamic_cast<Ball*>(pGameObject)->SetAIPlayer(pAIPlayer);
 	m_pGameObjectMgr->PushGameObject(pGameObject);
-
-	pGameObject = new Player;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
-	dynamic_cast<Player*>(pGameObject)->Init(m_Input);
-	m_pGameObjectMgr->PushGameObject(pGameObject);
-
-	pGameObject = new AIPlayer;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
-	m_pGameObjectMgr->PushGameObject(pGameObject);
-
 
 	// Create the light shader object.
 	m_LightShader = new LightShaderClass;
@@ -445,24 +448,26 @@ bool GraphicsClass::Render(float rotation)
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 
 	m_D3D->GetOrthoMatrix(orthoMatrix);
+	
+	m_pGameObjectMgr->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix, projectionMatrix, m_Camera, m_Light, diffuseColor, lightPosition);
 
 	// Turn off the Z buffer to begin all 2D rendering.
 	m_D3D->TurnZBufferOff();
 
 	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 200, 200);
-	if (!result)
-	{
-		return false;
-	}
+	//result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 200, 200);
+	//if (!result)
+	//{
+	//	return false;
+	//}
 
 	// Render the bitmap with the texture shader.
-	result = m_TextureShader->Render(m_D3D->GetDeviceContext(), m_Bitmap->GetIndexCount(),
-		worldMatrix, viewMatrix, orthoMatrix, m_Bitmap->GetTexture());
-	if (!result)
-	{
-		return false;
-	}
+	//result = m_TextureShader->Render(m_D3D->GetDeviceContext(), m_Bitmap->GetIndexCount(),
+	//	worldMatrix, viewMatrix, orthoMatrix, m_Bitmap->GetTexture());
+	//if (!result)
+	//{
+	//	return false;
+	//}
 	// Turn on the alpha blending before rendering the text.
 	m_D3D->TurnOnAlphaBlending();
 
@@ -484,7 +489,6 @@ bool GraphicsClass::Render(float rotation)
 		return false;
 	}*/
 
-	m_pGameObjectMgr->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix,projectionMatrix, m_Camera, m_Light,diffuseColor,lightPosition);
 
 	// Present the rendered scene to the screen.
 	m_D3D->EndScene();

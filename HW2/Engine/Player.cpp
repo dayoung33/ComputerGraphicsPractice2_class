@@ -2,6 +2,8 @@
 
 Player::Player()
 {
+	m_vPos = { 90.f, 0.f, 5.f };
+	m_vOriginPos = m_vPos;
 }
 
 Player::Player(Player &)
@@ -19,7 +21,6 @@ void Player::Init()
 void Player::Init(InputClass * _input)
 {
 	m_pInput = _input;
-	m_vPos = { 55.f, 60.f, 5.f };
 }
 
 bool Player::Frame()
@@ -42,12 +43,17 @@ void Player::Shutdown()
 
 void Player::Move()
 {
-	if (m_pInput->IsKeyPressed(DIK_RIGHT))
-		m_vPos.x += 1.f;
-	if (m_pInput->IsKeyPressed(DIK_LEFT))
-		m_vPos.x -= 1.f;
+	//if (m_pInput->IsKeyPressed(DIK_RIGHT))
+	//	m_vPos.x += 1.f;
+	//if (m_pInput->IsKeyPressed(DIK_LEFT))
+	//	m_vPos.x -= 1.f;
 	if (m_pInput->IsKeyPressed(DIK_UP))
 		m_vPos.y += 1.f;
 	if (m_pInput->IsKeyPressed(DIK_DOWN))
 		m_vPos.y -= 1.f;
+}
+
+void Player::Reset()
+{
+	m_vPos = m_vOriginPos;
 }

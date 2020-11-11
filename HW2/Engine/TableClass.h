@@ -12,7 +12,6 @@ public:
 	void Shutdown();
 
 private:
-	D3DXVECTOR3 m_vPos;
 	D3DXVECTOR3 m_vSize;
 };
 
