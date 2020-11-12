@@ -39,6 +39,7 @@ private:
 	D3DXVECTOR3 m_vSize;
 	eDir m_eDir;
 	InputClass* m_pInput;
+	bool gameStart;
 
 
 	D3DXVECTOR3 Stop =		{ 0.f,0.f,0.f };

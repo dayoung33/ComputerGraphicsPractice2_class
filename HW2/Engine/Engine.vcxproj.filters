@@ -42,9 +42,6 @@
     <Filter Include="소스 파일\00.System\Texture">
       <UniqueIdentifier>{a9d050d3-83bb-41e3-bf14-856dcfadde44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\00.System\SkyBox">
-      <UniqueIdentifier>{dba1f302-5bf9-4947-a25f-ce39afaedbc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\00.System\System">
       <UniqueIdentifier>{dfbe7942-7576-42ed-8b7d-215e89a2b7cd}</UniqueIdentifier>
     </Filter>
@@ -103,9 +100,6 @@
     </ClCompile>
     <ClCompile Include="systemclass.cpp">
       <Filter>소스 파일\00.System\System</Filter>
-    </ClCompile>
-    <ClCompile Include="skyboxshader.cpp">
-      <Filter>소스 파일\00.System\SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="textureclass.cpp">
       <Filter>소스 파일\00.System\Texture</Filter>
@@ -166,9 +160,6 @@
     <ClInclude Include="modelclass.h">
       <Filter>소스 파일\00.System\Model</Filter>
     </ClInclude>
-    <ClInclude Include="skyboxshader.h">
-      <Filter>소스 파일\00.System\SkyBox</Filter>
-    </ClInclude>
     <ClInclude Include="systemclass.h">
       <Filter>소스 파일\00.System\System</Filter>
     </ClInclude>
@@ -218,12 +209,6 @@
     </None>
     <None Include="texture.vs">
       <Filter>소스 파일\00.System\Texture</Filter>
-    </None>
-    <None Include="skybox.ps">
-      <Filter>소스 파일\00.System\SkyBox</Filter>
-    </None>
-    <None Include="skybox.vs">
-      <Filter>소스 파일\00.System\SkyBox</Filter>
     </None>
   </ItemGroup>
 </Project>

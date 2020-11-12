@@ -17,10 +17,7 @@ GraphicsClass::GraphicsClass()
 	m_Light2 = 0;
 	m_Light3 = 0;
 	m_Light = 0;
-	m_TextureShader = 0;
-	m_Bitmap = 0;
 	m_Text = 0;
-	m_SkyBoxShader = 0;
 	m_pGameObjectMgr = 0;
 	m_pPlayer = 0;
 	m_pAIPlayer = 0;
@@ -65,7 +62,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 100.0f, -200.0f);
+	m_Camera->SetPosition(0.0f, 100.0f, -250.0f);
 	m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
 
 	m_Camera->Render();
@@ -79,35 +76,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	// Create the texture shader object.
-	m_TextureShader = new TextureShaderClass;
-	if (!m_TextureShader)
-	{
-		return false;
-	}
-	// Initialize the texture shader object.
-	result = m_TextureShader->Initialize(m_D3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
-		return false;
-	}
-
-	// Create the bitmap object.
-	m_Bitmap = new BitmapClass;
-	if (!m_Bitmap)
-	{
-		return false;
-	}
-	// Initialize the bitmap object.
-	result = m_Bitmap->Initialize(m_D3D->GetDevice(), screenWidth, screenHeight,
-		L"../Engine/data/seafloor.dds", 256, 256);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the bitmap object.", L"Error", MB_OK);
-		return false;
-	}
-
 	// Initialize the text object.
 	result = m_Text->Initialize(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), hwnd, screenWidth,
 		screenHeight, baseViewMatrix);
@@ -116,17 +84,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the text object.", L"Error", MB_OK);
 		return false;
 	}
-
-	//m_SkyBoxShader = new SkyboxShaderClass;
-	//if (!m_SkyBoxShader)
-	//	return false;
-
-	//result = m_SkyBoxShader->Initialize(m_D3D->GetDevice(), hwnd);
-	//if (!result)
-	//{
-	//	MessageBox(hwnd, L"Could not initialize the SkyBox object.", L"Error", MB_OK);
-	//	return false;
-	//}
 
 	m_pGameObjectMgr = new GameObjectMgr;
 	if (!m_pGameObjectMgr)
@@ -229,8 +186,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Initialize the first light object.
-	m_Light1->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-	m_Light1->SetPosition(30.0f, 1.0f, -20.0f);
+	m_Light1->SetDiffuseColor(1.0f, 1.0f, 0.0f, 1.0f);
+	m_Light1->SetPosition(90.0f, 1.0f, 0.0f);
 
 
 	// Create the second light object.
@@ -241,8 +198,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Initialize the second light object.
-	m_Light2->SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);
-	m_Light2->SetPosition(0.0f, 1.0f, -20.0f);
+	m_Light2->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Light2->SetPosition(0.0f, 1.0f, 0.0f);
 
 
 	// Create the third light object.
@@ -253,8 +210,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Initialize the third light object.
-	m_Light3->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
-	m_Light3->SetPosition(-30.0f, 1.0f, -20.0f);
+	m_Light3->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
+	m_Light3->SetPosition(-90.0f, 1.0f, 0.0f);
 
 	return true;
 }
@@ -315,28 +272,6 @@ void GraphicsClass::Shutdown()
 		m_Text = 0;
 	}
 
-	// Release the bitmap object.
-	if (m_Bitmap)
-	{
-		m_Bitmap->Shutdown();
-		delete m_Bitmap;
-		m_Bitmap = 0;
-	}
-
-	// Release the texture shader object.
-	if (m_TextureShader)
-	{
-		m_TextureShader->Shutdown();
-		delete m_TextureShader;
-		m_TextureShader = 0;
-	}
-
-	if (m_SkyBoxShader)
-	{
-		m_SkyBoxShader->Shutdown();
-		delete m_SkyBoxShader;
-		m_SkyBoxShader = 0;
-	}
 
 	// Release the camera object.
 	if(m_Camera)
@@ -364,6 +299,14 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	m_Text->SetScore(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetScore(), dynamic_cast<Player*>(m_pPlayer)->GetScore(), m_D3D->GetDeviceContext());
 	m_Text->SetWin(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetWin(), dynamic_cast<Player*>(m_pPlayer)->GetWin(), m_D3D->GetDeviceContext());
 	// Update the rotation variable each frame.
+	if(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetWin())
+		m_Light2->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
+	if(dynamic_cast<Player*>(m_pPlayer)->GetWin())
+		m_Light2->SetDiffuseColor(1.0f, 1.0f, 0.0f, 1.0f);
+
+	m_Light1->SetPosition(90.0f, 1.0f, m_pPlayer->GetPos().y);
+	m_Light3->SetPosition(-90.0f, 1.0f, m_pAIPlayer->GetPos().y);
+
 	rotation += (float)D3DX_PI * 0.005f;
 	if(rotation > 360.0f)
 	{
@@ -457,20 +400,6 @@ bool GraphicsClass::Render(float rotation)
 	// Turn off the Z buffer to begin all 2D rendering.
 	m_D3D->TurnZBufferOff();
 
-	//// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	//result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 300, 200);
-	//if (!result)
-	//{
-	//	return false;
-	//}
-
-	// //Render the bitmap with the texture shader.
-	//result = m_TextureShader->Render(m_D3D->GetDeviceContext(), m_Bitmap->GetIndexCount(),
-	//	worldMatrix, viewMatrix, orthoMatrix, m_Bitmap->GetTexture());
-	//if (!result)
-	//{
-	//	return false;
-	//}
 	// Turn on the alpha blending before rendering the text.
 	m_D3D->TurnOnAlphaBlending();
 
@@ -485,13 +414,6 @@ bool GraphicsClass::Render(float rotation)
 
 	// Turn the Z buffer back on now that all 2D rendering has completed.
 	m_D3D->TurnZBufferOn();
-
-	/*result = m_SkyBoxShader->Render(m_D3D->GetDeviceContext(), worldMatrix, viewMatrix, projectionMatrix, m_Camera->GetPosition());
-	if (!result)
-	{
-		return false;
-	}*/
-
 
 	// Present the rendered scene to the screen.
 	m_D3D->EndScene();

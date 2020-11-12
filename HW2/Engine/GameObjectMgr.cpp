@@ -42,25 +42,6 @@ void GameObjectMgr::Render(ID3D11DeviceContext* deviceContext, LightShaderClass 
 
 	for (auto iter : m_GameObjectLst)
 	{
-		/*ID3D11RasterizerState* pRasterState;
-		deviceContext->RSGetState(&pRasterState);
-
-		D3D11_RASTERIZER_DESC rasterDesc;
-		pRasterState->GetDesc(&rasterDesc);
-
-		if (rasterDesc.CullMode == D3D11_CULL_NONE)
-		{
-			ID3D11RasterizerState* pRasterState;
-			pD3D->GetDeviceContext()->RSGetState(&pRasterState);
-
-			D3D11_RASTERIZER_DESC rasterDesc;
-			pRasterState->GetDesc(&rasterDesc);
-
-			rasterDesc.CullMode = D3D11_CULL_BACK;
-			pD3D->GetDevice()->CreateRasterizerState(&rasterDesc, &pRasterState);
-			pD3D->GetDeviceContext()->RSSetState(pRasterState);
-		}*/
-
 		iter->Render(deviceContext);
 		pLightShader->Render(deviceContext, iter, viewMatrix, projectionMatrix, pCamera, pLight, vDiffusecolor, vLightPosition);
 	}

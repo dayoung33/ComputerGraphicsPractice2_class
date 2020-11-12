@@ -105,7 +105,7 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	}
 
 	// Now update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 1.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 0.0f, 0.0f, 1.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -457,7 +457,7 @@ bool TextClass::SetScore(int AIplayerScore, int playerScore, ID3D11DeviceContext
 	_itoa_s(AIplayerScore, tempString, 10);
 
 	// Setup the mouseX string.
-	strcpy_s(scoreString, "Score : ");
+	strcpy_s(scoreString, "AI : ");
 	strcat_s(scoreString, tempString);
 
 	// Update the sentence vertex buffer with the new string information.
@@ -471,11 +471,11 @@ bool TextClass::SetScore(int AIplayerScore, int playerScore, ID3D11DeviceContext
 	_itoa_s(playerScore, tempString, 10);
 
 	// Setup the mouseY string.
-	strcpy_s(scoreString, "Score : ");
+	strcpy_s(scoreString, "Player : ");
 	strcat_s(scoreString, tempString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_sentence2, scoreString, 630, 20, 0.0f, 0.0f, 1.0f, deviceContext);
+	result = UpdateSentence(m_sentence2, scoreString, 630, 20, 1.0f, 1.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -489,7 +489,7 @@ bool TextClass::SetWin(bool aiWIn, bool playerWIn, ID3D11DeviceContext* deviceCo
 	bool result;
 	if (playerWIn) {
 		// Update the sentence vertex buffer with the new string information.
-		result = UpdateSentence(m_sentence3, "Player WIN!!!", 340, 20, 0.0f, 0.0f, 1.0f, deviceContext);
+		result = UpdateSentence(m_sentence3, "Player WIN!!!", 340, 20, 1.0f, 1.0f, 0.0f, deviceContext);
 		if (!result)
 		{
 			return false;
@@ -507,7 +507,7 @@ bool TextClass::SetWin(bool aiWIn, bool playerWIn, ID3D11DeviceContext* deviceCo
 	if (!aiWIn && !playerWIn)
 	{
 		// Update the sentence vertex buffer with the new string information.
-		result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 1.0f, 1.0f, 0.0f, deviceContext);
+		result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 0.0f, 0.0f, 1.0f, deviceContext);
 		if (!result)
 		{
 			return false;

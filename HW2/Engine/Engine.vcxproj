@@ -35,7 +35,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="skyboxshader.cpp" />
     <ClCompile Include="systemclass.cpp" />
     <ClCompile Include="TableClass.cpp" />
     <ClCompile Include="textclass.cpp" />
@@ -58,7 +57,6 @@
     <ClInclude Include="lightshaderclass.h" />
     <ClInclude Include="modelclass.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="skyboxshader.h" />
     <ClInclude Include="systemclass.h" />
     <ClInclude Include="TableClass.h" />
     <ClInclude Include="textclass.h" />
@@ -70,8 +68,6 @@
     <None Include="font.vs" />
     <None Include="light.ps" />
     <None Include="light.vs" />
-    <None Include="skybox.ps" />
-    <None Include="skybox.vs" />
     <None Include="texture.ps" />
     <None Include="texture.vs" />
   </ItemGroup>

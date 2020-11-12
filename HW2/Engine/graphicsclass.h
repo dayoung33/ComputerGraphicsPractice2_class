@@ -21,7 +21,6 @@
 #include "textureshaderclass.h"
 #include "bitmapclass.h"
 #include "textclass.h"
-#include "skyboxshader.h"
 #include "GameObjectMgr.h"
 #include "inputclass.h"
 #include "GameObject.h"
@@ -71,7 +70,6 @@ private:
 	TextureShaderClass* m_TextureShader;
 	TextClass* m_Text;
 	BitmapClass* m_Bitmap;
-	SkyboxShaderClass* m_SkyBoxShader;
 	InputClass* m_Input;
 	GameObjectMgr* m_pGameObjectMgr;
 	GameObject* m_pPlayer;

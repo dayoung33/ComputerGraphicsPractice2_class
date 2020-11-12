@@ -9,6 +9,7 @@ Ball::Ball()
 	m_vOriginPos = m_vPos;
 	m_vDir = { 0.0f, 0.0f, 0.0f };
 	m_eDir = STOP;
+	gameStart = false;
 
 }
 
@@ -31,8 +32,12 @@ void Ball::Init(InputClass * _input)
 
 bool Ball::Frame()
 {
-	if (m_vDir == Stop)
-		RandomDir();
+	if (!gameStart&&m_pInput->IsKeyPressed(DIK_SPACE))
+		gameStart = true;
+
+	if(gameStart)
+		if (m_vDir == Stop)
+			RandomDir();
 
 
 	if (m_vPos.x > 95.f) {
