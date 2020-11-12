@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "inputclass.h"
+
 #include <cstdlib>
 #include <ctime>
 enum eDir {STOP, LEFT, LEFTUP, LEFTDOWN, RIGHT, RIGHTUP ,RIGHTDOWN};
@@ -12,18 +14,22 @@ public:
 	virtual ~Ball();
 
 	void Init();
+	void Init(InputClass * _input);
 	virtual bool Frame();
 	void Shutdown();
 
-	void Reset();
+	virtual void Reset();
 	void ChangeDir(eDir _dir);
 	D3DXVECTOR3 getPos() { return m_vPos; }
 	D3DXVECTOR3 getDir() { return m_vDir; }
+	void SetPlayer(GameObject* _pPlayer);
+	void SetAIPlayer(GameObject* _pPlayer);
+
+private:
 	void Move();
 	void RandomDir();
 	bool CheckPlayerCol(D3DXVECTOR3 plyerPos);
-	void SetPlayer(GameObject* _pPlayer);
-	void SetAIPlayer(GameObject* _pPlayer);
+	void SetAIMove();
 
 private:
 	GameObject* m_pPlayer;
@@ -31,6 +37,8 @@ private:
 	D3DXVECTOR3 m_vOriginPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vSize;
+	eDir m_eDir;
+	InputClass* m_pInput;
 
 
 	D3DXVECTOR3 Stop =		{ 0.f,0.f,0.f };

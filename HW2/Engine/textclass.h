@@ -39,6 +39,8 @@ public:
 	void Shutdown();
 	bool Render(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX);
 	bool SetMousePosition(int, int, ID3D11DeviceContext*);
+	bool SetScore(int, int, ID3D11DeviceContext*);
+	bool SetWin(bool,bool, ID3D11DeviceContext*);
 
 private:
 	bool InitializeSentence(SentenceType**, int, ID3D11Device*);
@@ -53,6 +55,8 @@ private:
 	D3DXMATRIX m_baseViewMatrix;
 	SentenceType* m_sentence1;
 	SentenceType* m_sentence2;
+	SentenceType* m_sentence3;
+
 };
 
 #endif

@@ -11,6 +11,8 @@ TextClass::TextClass()
 
 	m_sentence1 = 0;
 	m_sentence2 = 0;
+	m_sentence3 = 0;
+
 }
 
 
@@ -95,6 +97,20 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 		return false;
 	}
 
+	// Initialize the first sentence.
+	result = InitializeSentence(&m_sentence3, 16, device);
+	if (!result)
+	{
+		return false;
+	}
+
+	// Now update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 1.0f, 1.0f, 0.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -106,6 +122,9 @@ void TextClass::Shutdown()
 
 	// Release the second sentence.
 	ReleaseSentence(&m_sentence2);
+
+	// Release the second sentence.
+	ReleaseSentence(&m_sentence3);
 
 	// Release the font shader object.
 	if(m_FontShader)
@@ -146,6 +165,12 @@ bool TextClass::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatri
 		return false;
 	}
 
+	// Draw the second sentence.
+	result = RenderSentence(deviceContext, m_sentence3, worldMatrix, orthoMatrix);
+	if (!result)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -416,6 +441,77 @@ bool TextClass::SetMousePosition(int mouseX, int mouseY, ID3D11DeviceContext* de
 	if (!result)
 	{
 		return false;
+	}
+
+	return true;
+}
+
+bool TextClass::SetScore(int AIplayerScore, int playerScore, ID3D11DeviceContext* deviceContext)
+{
+	char tempString[16];
+	char scoreString[16];
+	bool result;
+
+
+	// Convert the mouseX integer to string format.
+	_itoa_s(AIplayerScore, tempString, 10);
+
+	// Setup the mouseX string.
+	strcpy_s(scoreString, "Score : ");
+	strcat_s(scoreString, tempString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_sentence1, scoreString, 100, 20, 1.0f, 0.0f, 0.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
+	// Convert the mouseY integer to string format.
+	_itoa_s(playerScore, tempString, 10);
+
+	// Setup the mouseY string.
+	strcpy_s(scoreString, "Score : ");
+	strcat_s(scoreString, tempString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_sentence2, scoreString, 630, 20, 0.0f, 0.0f, 1.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool TextClass::SetWin(bool aiWIn, bool playerWIn, ID3D11DeviceContext* deviceContext)
+{
+	bool result;
+	if (playerWIn) {
+		// Update the sentence vertex buffer with the new string information.
+		result = UpdateSentence(m_sentence3, "Player WIN!!!", 340, 20, 0.0f, 0.0f, 1.0f, deviceContext);
+		if (!result)
+		{
+			return false;
+		}
+	}
+	if(aiWIn)
+	{
+		// Update the sentence vertex buffer with the new string information.
+		result = UpdateSentence(m_sentence3, "AI WIN!!!", 340, 20, 1.0f, 0.0f, 0.0f, deviceContext);
+		if (!result)
+		{
+			return false;
+		}
+	}
+	if (!aiWIn && !playerWIn)
+	{
+		// Update the sentence vertex buffer with the new string information.
+		result = UpdateSentence(m_sentence3, "Ping Pong", 340, 20, 1.0f, 1.0f, 0.0f, deviceContext);
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 	return true;

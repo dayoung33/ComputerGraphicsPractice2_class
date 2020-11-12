@@ -24,6 +24,7 @@
 #include "skyboxshader.h"
 #include "GameObjectMgr.h"
 #include "inputclass.h"
+#include "GameObject.h"
 
 /////////////
 // GLOBALS //
@@ -73,7 +74,8 @@ private:
 	SkyboxShaderClass* m_SkyBoxShader;
 	InputClass* m_Input;
 	GameObjectMgr* m_pGameObjectMgr;
-
+	GameObject* m_pPlayer;
+	GameObject* m_pAIPlayer;
 };
 
 #endif

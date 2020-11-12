@@ -20,13 +20,14 @@ void TableClass::Init()
 bool TableClass::Frame()
 {
 
-	D3DXMATRIX matTans, matRotX, matScale;
+	D3DXMATRIX matTans, matRotX, matRotY, matScale;
 
-	D3DXMatrixTranslation(&matTans, 0.f, 0.f, 10.f);
-	D3DXMatrixScaling(&matScale, 0.7f, 0.4f, 0.1f);
+	D3DXMatrixTranslation(&matTans, 0.f, 0.f, 80.f);
+	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
 	D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
+	D3DXMatrixRotationZ(&matRotY, D3DXToRadian(90.f));
 
-	m_matWorld = matScale * matTans * matRotX;
+	m_matWorld = matScale* matRotY* matTans * matRotX;
 	return true;
 }
 

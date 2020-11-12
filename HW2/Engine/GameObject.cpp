@@ -28,6 +28,10 @@ bool GameObject::Frame()
 	return false;
 }
 
+void GameObject::Reset()
+{
+}
+
 void GameObject::Shutdown()
 {
 

@@ -17,6 +17,7 @@ public:
 public:
 	void Init();
 	virtual bool Frame();
+	virtual void Reset();
 	void Shutdown();
 
 protected:

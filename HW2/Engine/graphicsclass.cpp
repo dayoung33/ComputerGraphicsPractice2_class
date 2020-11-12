@@ -22,6 +22,8 @@ GraphicsClass::GraphicsClass()
 	m_Text = 0;
 	m_SkyBoxShader = 0;
 	m_pGameObjectMgr = 0;
+	m_pPlayer = 0;
+	m_pAIPlayer = 0;
 }
 
 
@@ -63,7 +65,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 100.0f, -150.0f);
+	m_Camera->SetPosition(0.0f, 100.0f, -200.0f);
 	m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
 
 	m_Camera->Render();
@@ -136,7 +138,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	pGameObject = new TableClass;
 	if (!pGameObject)
 		return false;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", L"./data/pingpong.png");
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/10233_Kitchen_Table_v2_max2011_it2.obj", L"./data/10233_Kitchen_Table_v1_Diffuse.jpg");
 	if(!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -144,26 +146,24 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	m_pGameObjectMgr->PushGameObject(pGameObject);
 
-	GameObject* pPlayer = nullptr;
-	pPlayer = new Player;
-	result = pPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	m_pPlayer = new Player;
+	result = m_pPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<Player*>(pPlayer)->Init(m_Input);
-	m_pGameObjectMgr->PushGameObject(pPlayer);
+	dynamic_cast<Player*>(m_pPlayer)->Init(m_Input);
+	m_pGameObjectMgr->PushGameObject(m_pPlayer);
 
-	GameObject* pAIPlayer = nullptr;
-	pAIPlayer = new AIPlayer;
-	result = pAIPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
+	m_pAIPlayer = new AIPlayer;
+	result = m_pAIPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	m_pGameObjectMgr->PushGameObject(pAIPlayer);
+	m_pGameObjectMgr->PushGameObject(m_pAIPlayer);
 
 		pGameObject = new Ball;
 	if (!pGameObject)
@@ -174,8 +174,9 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<Ball*>(pGameObject)->SetPlayer(pPlayer);
-	dynamic_cast<Ball*>(pGameObject)->SetAIPlayer(pAIPlayer);
+	dynamic_cast<Ball*>(pGameObject)->Init(m_Input);
+	dynamic_cast<Ball*>(pGameObject)->SetPlayer(m_pPlayer);
+	dynamic_cast<Ball*>(pGameObject)->SetAIPlayer(m_pAIPlayer);
 	m_pGameObjectMgr->PushGameObject(pGameObject);
 
 	// Create the light shader object.
@@ -261,6 +262,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicsClass::Shutdown()
 {
+	
 	if (m_pGameObjectMgr)
 	{
 		delete m_pGameObjectMgr;
@@ -359,7 +361,8 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 {
 	bool result;
 	static float rotation = 0.0f;
-
+	m_Text->SetScore(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetScore(), dynamic_cast<Player*>(m_pPlayer)->GetScore(), m_D3D->GetDeviceContext());
+	m_Text->SetWin(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetWin(), dynamic_cast<Player*>(m_pPlayer)->GetWin(), m_D3D->GetDeviceContext());
 	// Update the rotation variable each frame.
 	rotation += (float)D3DX_PI * 0.005f;
 	if(rotation > 360.0f)
@@ -454,14 +457,14 @@ bool GraphicsClass::Render(float rotation)
 	// Turn off the Z buffer to begin all 2D rendering.
 	m_D3D->TurnZBufferOff();
 
-	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	//result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 200, 200);
+	//// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
+	//result = m_Bitmap->Render(m_D3D->GetDeviceContext(), 300, 200);
 	//if (!result)
 	//{
 	//	return false;
 	//}
 
-	// Render the bitmap with the texture shader.
+	// //Render the bitmap with the texture shader.
 	//result = m_TextureShader->Render(m_D3D->GetDeviceContext(), m_Bitmap->GetIndexCount(),
 	//	worldMatrix, viewMatrix, orthoMatrix, m_Bitmap->GetTexture());
 	//if (!result)
