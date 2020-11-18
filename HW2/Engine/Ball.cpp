@@ -5,7 +5,7 @@
 Ball::Ball()
 {
 	srand(time(unsigned int(NULL)));
-	m_vPos = { 0.f, 0.f, 5.f };
+	m_vPos = { 0.f, 0.f, 0.f };
 	m_vOriginPos = m_vPos;
 	m_vDir = { 0.0f, 0.0f, 0.0f };
 	m_eDir = STOP;
