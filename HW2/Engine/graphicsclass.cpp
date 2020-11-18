@@ -125,7 +125,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		pGameObject = new Ball;
 	if (!pGameObject)
 		return false;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/10447_Pine_Tree_v1_L3b.obj", L"./data/10447_Pine_Tree_v1_Diffuse.jpg");
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/12190_Heart_v1_L3.obj", L"./data/red.png");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
