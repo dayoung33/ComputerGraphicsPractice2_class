@@ -4,8 +4,8 @@
 #include "graphicsclass.h"
 #include "TableClass.h"
 #include "Player.h"
-#include "Ball.h"
-#include "AIPlayer.h"
+#include "DartBoard.h"
+#include "MovingTree.h"
 
 GraphicsClass::GraphicsClass()
 {
@@ -143,16 +143,17 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	dynamic_cast<Player*>(m_pPlayer)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(m_pPlayer);
 
-	m_pAIPlayer = new AIPlayer;
+	m_pAIPlayer = new MovingTree;
 	result = m_pAIPlayer->Initialize(m_D3D->GetDevice(), L"./data/10447_Pine_Tree_v1_L3b.obj", L"./data/10447_Pine_Tree_v1_Diffuse.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
+	dynamic_cast<MovingTree*>(m_pAIPlayer)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(m_pAIPlayer);
 
-		pGameObject = new Ball;
+		pGameObject = new DartBoard;
 	if (!pGameObject)
 		return false;
 	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/11721_darboard_V4_L3.obj", L"./data/dartboard.jpg");
@@ -161,9 +162,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<Ball*>(pGameObject)->Init(m_Input);
-	dynamic_cast<Ball*>(pGameObject)->SetPlayer(m_pPlayer);
-	dynamic_cast<Ball*>(pGameObject)->SetAIPlayer(m_pAIPlayer);
+	dynamic_cast<DartBoard*>(pGameObject)->SetPlayer(m_pPlayer);
+	dynamic_cast<DartBoard*>(pGameObject)->SetAIPlayer(m_pAIPlayer);
 	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
 
 	// Create the light shader object.
@@ -206,7 +206,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetDirection(0.0f, 0.0f, 1.0f);
 	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light->SetSpecularPower(32.0f);
+	m_Light->SetSpecularPower(3200.0f);
 
 	// Create the first light object.
 	m_Light1 = new LightClass;
@@ -361,7 +361,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 		m_SceneNum = 1;
 
 	// Update the rotation variable each frame.
-	if(dynamic_cast<AIPlayer*>(m_pAIPlayer)->GetWin())
+	if(dynamic_cast<MovingTree*>(m_pAIPlayer)->GetWin())
 		m_Light2->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
 	if(dynamic_cast<Player*>(m_pPlayer)->GetWin())
 		m_Light2->SetDiffuseColor(1.0f, 1.0f, 0.0f, 1.0f);

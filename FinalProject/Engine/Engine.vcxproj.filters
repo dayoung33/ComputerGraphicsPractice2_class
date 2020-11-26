@@ -131,12 +131,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\01.GameObject\01.Player</Filter>
     </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
-    </ClCompile>
-    <ClCompile Include="AIPlayer.cpp">
-      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
-    </ClCompile>
     <ClCompile Include="soundclass.cpp">
       <Filter>소스 파일\00.System\Sound</Filter>
     </ClCompile>
@@ -145,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="FpsClass.cpp">
       <Filter>소스 파일\00.System\Fps</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTree.cpp">
+      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="DartBoard.cpp">
+      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,12 +202,6 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\01.GameObject\01.Player</Filter>
     </ClInclude>
-    <ClInclude Include="Ball.h">
-      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
-    </ClInclude>
-    <ClInclude Include="AIPlayer.h">
-      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
-    </ClInclude>
     <ClInclude Include="soundclass.h">
       <Filter>소스 파일\00.System\Sound</Filter>
     </ClInclude>
@@ -216,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="FpsClass.h">
       <Filter>소스 파일\00.System\Fps</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTree.h">
+      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="DartBoard.h">
+      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -161,7 +161,7 @@ bool TextClass::SetFps(int fps, ID3D11DeviceContext* deviceContext)
 		blue = 0.0f;
 	}
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pFpsSentence, fpsString, 20, -80, red, green, blue, deviceContext);
+	result = UpdateSentence(m_pFpsSentence, fpsString, 20, 0, red, green, blue, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -181,7 +181,7 @@ bool TextClass::SetCpu(int cpu, ID3D11DeviceContext* deviceContext)
 	strcat_s(cpuString, tempString);
 	strcat_s(cpuString, "%");
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pCpuSentence, cpuString, 20, -60, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pCpuSentence, cpuString, 20, 20, 0.0f, 1.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -200,7 +200,7 @@ bool TextClass::SetSentence(int Cnt, ID3D11DeviceContext *deviceContext)
 	strcpy_s(polyString, "Polygon Count: ");
 	strcat_s(polyString, tempString);
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pPolySentence, polyString, 20, -40, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pPolySentence, polyString, 20, 40, 0.0f, 1.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -227,7 +227,7 @@ bool TextClass::SetScreen(int width, int heigh, ID3D11DeviceContext *deviceConte
 	strcat_s(widthString, heightString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pScreenSentence, widthString, 20, -20, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pScreenSentence, widthString, 20, 60, 0.0f, 1.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -247,7 +247,7 @@ bool TextClass::SetObject(int obj, ID3D11DeviceContext *deviceContext)
 	strcpy_s(objString, "Object Count: ");
 	strcat_s(objString, tempString);
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pObjSentence, objString, 20, 0, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pObjSentence, objString, 20, 80, 0.0f, 1.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;

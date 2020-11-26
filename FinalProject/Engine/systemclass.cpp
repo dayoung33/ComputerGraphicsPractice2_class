@@ -71,13 +71,13 @@ bool SystemClass::Initialize()
 	{
 		return false;
 	}
-	// Initialize the sound object.
-	result = m_Sound->Initialize(m_hwnd);
-	if (!result)
-	{
-		MessageBox(m_hwnd, L"Could not initialize Direct Sound.", L"Error", MB_OK);
-		return false;
-	}
+	//// Initialize the sound object.
+	//result = m_Sound->Initialize(m_hwnd);
+	//if (!result)
+	//{
+	//	MessageBox(m_hwnd, L"Could not initialize Direct Sound.", L"Error", MB_OK);
+	//	return false;
+	//}
 	
 	return true;
 }

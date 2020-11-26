@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AIPlayer.cpp" />
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="MovingTree.cpp" />
+    <ClCompile Include="DartBoard.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
     <ClCompile Include="CpuClass.cpp" />
@@ -45,8 +45,8 @@
     <ClCompile Include="textureshaderclass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIPlayer.h" />
-    <ClInclude Include="Ball.h" />
+    <ClInclude Include="MovingTree.h" />
+    <ClInclude Include="DartBoard.h" />
     <ClInclude Include="bitmapclass.h" />
     <ClInclude Include="cameraclass.h" />
     <ClInclude Include="CpuClass.h" />
