@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	m_vPos = { 90.f, 0.f, 5.f };
+	m_vPos = { 0.f, -120.f, 70.f };
 	m_vOriginPos = m_vPos;
 	m_iScore = 0;
 	m_bWin = false;

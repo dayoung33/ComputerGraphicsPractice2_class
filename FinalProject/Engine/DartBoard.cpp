@@ -5,7 +5,7 @@
 DartBoard::DartBoard()
 {
 	srand(time(unsigned int(NULL)));
-	m_vPos = { 0.f, -10.f, 75.f };
+	m_vPos = { 0.f, 0.f, 75.f };
 	m_vOriginPos = m_vPos;
 	m_vDir = { 0.0f, 0.0f, 0.0f };
 	gameStart = false;
@@ -28,7 +28,7 @@ bool DartBoard::Frame()
 {
 	m_vPos = D3DXVECTOR3(m_pTree->GetPos().x - 60.f, m_vPos.y, m_vPos.z);
 	D3DXMATRIX matTans, matRotX, matScale;
-	D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y+3.3f, m_vPos.z);
 	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
 	//D3DXMatrixRotationX(&matRotX, D3DXToRadian(90.f));
 

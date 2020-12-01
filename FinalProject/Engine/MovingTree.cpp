@@ -4,7 +4,7 @@ MovingTree::MovingTree()
 {
 	m_vPos = { 60.f, 50.f, 70.f };
 	m_vOriginPos = m_vPos;
-	IsMoveOn = true;
+	IsMoveOn = false;
 	IsMoveUp = false;
 	m_iScore = 0;
 	m_bWin = false;
@@ -30,9 +30,11 @@ void MovingTree::Init(InputClass * _input)
 
 bool MovingTree::Frame()
 {
-	if (m_pInput->GetMouseState().rgbButtons[0] & 0x80)
-		Move();
-
+	if (m_pInput->IsKeyPressed(DIK_SPACE)) //if (m_pInput->GetMouseState().rgbButtons[0] & 0x80)
+		IsMoveOn = true;
+	//else
+	//	IsMoveOn = false;
+	Move();
 	D3DXMATRIX matTans, matRotX, matScale;
 
 	D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y, m_vPos.z);

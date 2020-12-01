@@ -54,14 +54,8 @@
     <Filter Include="소스 파일\01.GameObject\00.Table">
       <UniqueIdentifier>{36e8f542-ea88-40ed-9450-13fbf7c7de61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\01.GameObject\03.Ball">
-      <UniqueIdentifier>{204ac3b4-588e-45df-acb9-be4545e193cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\01.GameObject\99.GameObjectMgr">
       <UniqueIdentifier>{e18285fb-dccf-4388-b3d0-f995aed6f312}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\01.GameObject\02.AIPlayer">
-      <UniqueIdentifier>{edcdb414-dcc3-4af4-9ff2-2657e33161a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\00.System\Sound">
       <UniqueIdentifier>{25b8902c-9573-4375-865f-383f468a2b06}</UniqueIdentifier>
@@ -71,6 +65,15 @@
     </Filter>
     <Filter Include="소스 파일\00.System\Fps">
       <UniqueIdentifier>{34fd0693-d9bd-4297-94d6-75d5b25e7fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\04.Dart">
+      <UniqueIdentifier>{6122dd8c-315c-4bcd-ac50-d00c17269a96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\03.DartBoard">
+      <UniqueIdentifier>{204ac3b4-588e-45df-acb9-be4545e193cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01.GameObject\02.MovingTree">
+      <UniqueIdentifier>{edcdb414-dcc3-4af4-9ff2-2657e33161a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -141,10 +144,13 @@
       <Filter>소스 파일\00.System\Fps</Filter>
     </ClCompile>
     <ClCompile Include="MovingTree.cpp">
-      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
+      <Filter>소스 파일\01.GameObject\02.MovingTree</Filter>
     </ClCompile>
     <ClCompile Include="DartBoard.cpp">
-      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
+      <Filter>소스 파일\01.GameObject\03.DartBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="Dart.cpp">
+      <Filter>소스 파일\01.GameObject\04.Dart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,10 +218,13 @@
       <Filter>소스 파일\00.System\Fps</Filter>
     </ClInclude>
     <ClInclude Include="MovingTree.h">
-      <Filter>소스 파일\01.GameObject\02.AIPlayer</Filter>
+      <Filter>소스 파일\01.GameObject\02.MovingTree</Filter>
     </ClInclude>
     <ClInclude Include="DartBoard.h">
-      <Filter>소스 파일\01.GameObject\03.Ball</Filter>
+      <Filter>소스 파일\01.GameObject\03.DartBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="Dart.h">
+      <Filter>소스 파일\01.GameObject\04.Dart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

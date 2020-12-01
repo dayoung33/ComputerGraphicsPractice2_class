@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "DartBoard.h"
 #include "MovingTree.h"
+#include "Dart.h"
 
 GraphicsClass::GraphicsClass()
 {
@@ -156,7 +157,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		pGameObject = new DartBoard;
 	if (!pGameObject)
 		return false;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/11721_darboard_V4_L3.obj", L"./data/dartboard.jpg");
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/11721_darboard_V4_L3.obj", L"./data/target.png");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
@@ -164,6 +165,18 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	dynamic_cast<DartBoard*>(pGameObject)->SetPlayer(m_pPlayer);
 	dynamic_cast<DartBoard*>(pGameObject)->SetAIPlayer(m_pAIPlayer);
+	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+
+	pGameObject = new Dart;
+	if (!pGameObject)
+		return false;
+	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/dart.obj", L"./data/red.png");
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+	dynamic_cast<Dart*>(pGameObject)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
 
 	// Create the light shader object.
