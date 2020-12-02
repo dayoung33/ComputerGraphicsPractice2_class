@@ -1,3 +1,11 @@
-﻿  MovingTree.cpp
-d:\github\computergraphicspractice2_class\finalproject\engine\movingtree.cpp(42): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-  Engine.vcxproj -> D:\Github\ComputerGraphicsPractice2_class\FinalProject\Debug\Engine.exe
+﻿  d3dclass.cpp
+  GameObjectMgr.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  graphicsclass.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  lightshaderclass.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  main.cpp
+  systemclass.cpp
+  코드를 생성하고 있습니다...
+  Engine.vcxproj -> C:\Users\rkek3\Documents\GitHub\ComputerGraphicsPractice2_class\FinalProject\Debug\Engine.exe

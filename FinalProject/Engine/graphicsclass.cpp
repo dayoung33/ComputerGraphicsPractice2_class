@@ -411,42 +411,6 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	return true;
 }
 
-void GraphicsClass::OffAmbient()
-{
-	m_Light->SetAmbientColor(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
-void GraphicsClass::OffDiffuse()
-{
-	m_Light->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
-void GraphicsClass::OffSpecular()
-{
-	m_Light->SetSpecularColor(0.0f, 0.0f, 0.0f, 0.0f);
-	m_Light->SetSpecularPower(32000.0f);
-}
-
-void GraphicsClass::OffPointLight()
-{
-	m_Light1->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
-	m_Light2->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
-	m_Light3->SetDiffuseColor(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
-void GraphicsClass::OnLight()
-{
-	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 0.15f);
-	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light->SetSpecularPower(32.0f);
-
-	m_Light1->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-	m_Light2->SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);
-	m_Light3->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-
-}
 
 
 bool GraphicsClass::Render(float rotation)

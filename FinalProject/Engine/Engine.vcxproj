@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dart.cpp" />
+    <ClCompile Include="GameSystem.cpp" />
+    <ClCompile Include="GameSystemMgr.cpp" />
     <ClCompile Include="MovingTree.cpp" />
     <ClCompile Include="DartBoard.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
@@ -38,6 +40,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScoreUI.cpp" />
     <ClCompile Include="soundclass.cpp" />
     <ClCompile Include="systemclass.cpp" />
     <ClCompile Include="TableClass.cpp" />
@@ -47,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dart.h" />
+    <ClInclude Include="GameSystem.h" />
+    <ClInclude Include="GameSystemMgr.h" />
     <ClInclude Include="MovingTree.h" />
     <ClInclude Include="DartBoard.h" />
     <ClInclude Include="bitmapclass.h" />
@@ -64,6 +69,7 @@
     <ClInclude Include="lightshaderclass.h" />
     <ClInclude Include="modelclass.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ScoreUI.h" />
     <ClInclude Include="soundclass.h" />
     <ClInclude Include="systemclass.h" />
     <ClInclude Include="TableClass.h" />

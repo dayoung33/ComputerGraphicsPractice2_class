@@ -50,11 +50,7 @@ public:
 	void Shutdown();
 	bool Frame(int, int);
 
-	void OffAmbient();
-	void OffDiffuse();
-	void OffSpecular();
-	void OffPointLight();
-	void OnLight();
+
 	void CamMoveLR(float x);
 	void CamMoveBF(float z);
 	void CamLookRotate(DIMOUSESTATE& curMouse, DIMOUSESTATE& nextMouse);

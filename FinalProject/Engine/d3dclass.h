@@ -4,7 +4,6 @@
 #ifndef _D3DCLASS_H_
 #define _D3DCLASS_H_
 
-
 /////////////
 // LINKING //
 /////////////

@@ -75,6 +75,27 @@
     <Filter Include="소스 파일\01.GameObject\02.MovingTree">
       <UniqueIdentifier>{edcdb414-dcc3-4af4-9ff2-2657e33161a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02. GameSystem">
+      <UniqueIdentifier>{d56a2cd1-58b0-4fb3-aaf5-5779c82e2e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\99.GameSystemMgr">
+      <UniqueIdentifier>{47738411-3989-49bd-adf2-2f03786dbb13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\00.ScoreUI">
+      <UniqueIdentifier>{17fb193f-c03b-4a4b-a3b8-84a7423beede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\01.LevelUI">
+      <UniqueIdentifier>{347356d2-78c4-4e3b-a496-f6d0b983dff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\02.Particle">
+      <UniqueIdentifier>{bdc497e2-3ee0-49d4-aed6-63edda6ce56b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\98.EndingUI">
+      <UniqueIdentifier>{b333d21a-de50-4c09-b658-09b5d01c396c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\97.OpeningUI">
+      <UniqueIdentifier>{b4bb0a4b-a210-4afc-be7c-a000fe0aa328}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -152,6 +173,15 @@
     <ClCompile Include="Dart.cpp">
       <Filter>소스 파일\01.GameObject\04.Dart</Filter>
     </ClCompile>
+    <ClCompile Include="GameSystemMgr.cpp">
+      <Filter>소스 파일\02. GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreUI.cpp">
+      <Filter>소스 파일\02. GameSystem\00.ScoreUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystem.cpp">
+      <Filter>소스 파일\02. GameSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bitmapclass.h">
@@ -225,6 +255,15 @@
     </ClInclude>
     <ClInclude Include="Dart.h">
       <Filter>소스 파일\01.GameObject\04.Dart</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem.h">
+      <Filter>소스 파일\02. GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystemMgr.h">
+      <Filter>소스 파일\02. GameSystem\99.GameSystemMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreUI.h">
+      <Filter>소스 파일\02. GameSystem\00.ScoreUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

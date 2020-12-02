@@ -1,7 +1,6 @@
 #pragma once
 #include "modelclass.h"
-class GameObject :
-	public ModelClass
+class GameObject : public ModelClass
 {
 public:
 	GameObject();
