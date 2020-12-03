@@ -106,6 +106,11 @@ void CameraClass::GetViewMatrix(D3DXMATRIX& viewMatrix)
 	return;
 }
 
+void CameraClass::GetLookAt(D3DXVECTOR3 &lookAt)
+{
+	lookAt = this->lookAt;
+}
+
 void CameraClass::MoveLeftRight(float x)
 {
 	moveLeftRight += x * m_moveSpeed;

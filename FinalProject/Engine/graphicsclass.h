@@ -26,6 +26,8 @@
 #include "GameObject.h"
 #include "FpsClass.h"
 #include "CpuClass.h"
+#include "GameSystemMgr.h"
+#include "GameSystem.h"
 
 /////////////
 // GLOBALS //
@@ -72,9 +74,14 @@ private:
 	GameObjectMgr* m_pGameObjectMgr[3];
 	GameObject* m_pPlayer;
 	GameObject* m_pAIPlayer;
+	GameObject* m_pDart;
+	GameObject* m_pDartBoard;
+	GameSystemMgr* m_pGameSystemMgr;
 
 	FpsClass* m_pFps;
 	CpuClass* m_pCpu;
+
+	D3DXMATRIX baseViewMatrix;
 
 	int m_SceneNum;
 };

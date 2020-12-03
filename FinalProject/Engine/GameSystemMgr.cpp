@@ -35,14 +35,14 @@ bool GameSystemMgr::Frame()
 	return true;
 }
 
-void GameSystemMgr::Render(ID3D11DeviceContext * deviceContext, TextureShaderClass * pTextureShader, D3DXMATRIX viewMatrix, D3DXMATRIX worldMatrix, D3DXMATRIX orthoMatrix)
+void GameSystemMgr::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTextureShader, D3DXMATRIX viewMatrix, D3DXMATRIX worldMatrix, D3DXMATRIX baseViewMatrix, D3DXMATRIX orthoMatrix, D3DXVECTOR3 cameraLook)
 {
 	if (m_GameObjectLst.size() == 0)
 		return;
 
 	for (auto iter : m_GameObjectLst)
 	{
-		iter->Render(deviceContext,pTextureShader,viewMatrix,worldMatrix, orthoMatrix);
+		iter->Render(deviceContext,pTextureShader,viewMatrix,worldMatrix, baseViewMatrix, orthoMatrix, cameraLook);
 	}
 }
 

@@ -1,11 +1,3 @@
-﻿  d3dclass.cpp
-  GameObjectMgr.cpp
-  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  graphicsclass.cpp
-  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  lightshaderclass.cpp
-  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  main.cpp
-  systemclass.cpp
-  코드를 생성하고 있습니다...
+﻿  ScoreUI.cpp
+c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(32): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Engine.vcxproj -> C:\Users\rkek3\Documents\GitHub\ComputerGraphicsPractice2_class\FinalProject\Debug\Engine.exe

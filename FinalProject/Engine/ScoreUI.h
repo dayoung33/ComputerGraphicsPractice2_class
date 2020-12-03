@@ -1,7 +1,6 @@
 #pragma once
 #include "GameSystem.h"
-class Dart;
-class DartBoard;
+class GameObject;
 class ScoreUI : public GameSystem
 {
 public:
@@ -9,22 +8,26 @@ public:
 	ScoreUI(const ScoreUI&);
 	virtual ~ScoreUI();
 
+	
+
 public:
 	void Init(); 
+	void Init(ID3D11Device * device, float screenWidth, float screenHeight);
 	virtual bool Frame();
-	virtual void Render(ID3D11DeviceContext*, TextureShaderClass*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX);
+	virtual void Render(ID3D11DeviceContext*, TextureShaderClass*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, D3DXVECTOR3);
 	void Shutdown();
 
-	void SetObject(Dart* pDart, DartBoard* pBoard);
+	void SetObject(GameObject* pDart, GameObject* pBoard);
 
 private:
 	bool checkCollision();
+	int checkScore();
 
 private:
 	BitmapClass* m_backBoard;
 	TextClass* m_scoreText;
-	Dart* m_Dart;
-	DartBoard* m_DartBoard;
+	GameObject* m_Dart;
+	GameObject* m_DartBoard;
 
 	int m_totalscore;
 	int m_levelscore;

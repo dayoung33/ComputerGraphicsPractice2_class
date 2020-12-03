@@ -3,7 +3,7 @@
 
 Dart::Dart()
 {
-	m_vPos = { 0.0f, 0.f, -100.f };
+	m_vPos = { 0.f, 0.f, -100.f };
 	m_vOriginPos = m_vPos;
 	isMove = false;
 	mouseButtonUp = false;
@@ -44,7 +44,9 @@ void Dart::Shutdown()
 
 void Dart::Reset()
 {
-	m_vPos = m_vOriginPos;
+	//m_vPos = m_vOriginPos;
+	mouseButtonUp = false;
+	isMove = false;
 }
 
 void Dart::ReStart()
@@ -64,7 +66,7 @@ void Dart::Move()
 		if(mouseButtonUp)
 			isMove = true;
 
-		if (m_vPos.z > 67.f)
+		if (m_vPos.z > 100.f)
 			isMove = false;
 
 		if (isMove)

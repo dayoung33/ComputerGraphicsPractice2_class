@@ -173,14 +173,14 @@
     <ClCompile Include="Dart.cpp">
       <Filter>소스 파일\01.GameObject\04.Dart</Filter>
     </ClCompile>
-    <ClCompile Include="GameSystemMgr.cpp">
-      <Filter>소스 파일\02. GameSystem</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreUI.cpp">
       <Filter>소스 파일\02. GameSystem\00.ScoreUI</Filter>
     </ClCompile>
     <ClCompile Include="GameSystem.cpp">
       <Filter>소스 파일\02. GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystemMgr.cpp">
+      <Filter>소스 파일\02. GameSystem\99.GameSystemMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

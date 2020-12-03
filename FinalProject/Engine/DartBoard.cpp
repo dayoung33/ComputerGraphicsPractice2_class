@@ -42,7 +42,8 @@ void DartBoard::Shutdown()
 
 void DartBoard::Reset()
 {
-	m_vPos = m_vOriginPos;
+	//m_vPos = m_vOriginPos;
+	m_pTree->Reset();
 }
 
 void DartBoard::SetPlayer(GameObject * _pPlayer)
@@ -50,7 +51,7 @@ void DartBoard::SetPlayer(GameObject * _pPlayer)
 	m_pPlayer = _pPlayer;
 }
 
-void DartBoard::SetAIPlayer(GameObject * _pPlayer)
+void DartBoard::SetTree(GameObject * _pPlayer)
 {
 	m_pTree = _pPlayer;
 }

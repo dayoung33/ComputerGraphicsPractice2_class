@@ -21,7 +21,7 @@ public:
 	D3DXVECTOR3 getPos() { return m_vPos; }
 	D3DXVECTOR3 getDir() { return m_vDir; }
 	void SetPlayer(GameObject* _pPlayer);
-	void SetAIPlayer(GameObject* _pPlayer);
+	void SetTree(GameObject* _pPlayer);
 
 
 private:

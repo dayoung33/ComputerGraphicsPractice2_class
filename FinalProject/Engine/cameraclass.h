@@ -29,6 +29,7 @@ public:
 
 	void Render();
 	void GetViewMatrix(D3DXMATRIX&);
+	void GetLookAt(D3DXVECTOR3&);
 
 	void MoveLeftRight(float x);
 	void MoveBackForward(float z);

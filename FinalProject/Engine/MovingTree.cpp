@@ -2,7 +2,7 @@
 
 MovingTree::MovingTree()
 {
-	m_vPos = { 60.f, 50.f, 70.f };
+	m_vPos = { -50.f, 50.f, 70.f };
 	m_vOriginPos = m_vPos;
 	IsMoveOn = false;
 	IsMoveUp = false;
@@ -81,7 +81,8 @@ void MovingTree::Move()
 
 void MovingTree::Reset()
 {
-	m_vPos = m_vOriginPos;
+	//m_vPos = m_vOriginPos;
+	IsMoveOn = false;
 }
 void MovingTree::ReStart()
 {

@@ -19,7 +19,7 @@ public:
 	bool PushGameObject(GameSystem* pGameObject);
 
 	bool Frame();
-	void Render(ID3D11DeviceContext * deviceContext,TextureShaderClass* pTextureShader , D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, D3DXMATRIX orthoMatrix);
+	void Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTextureShader, D3DXMATRIX viewMatrix, D3DXMATRIX worldMatrix, D3DXMATRIX baseViewMatrix, D3DXMATRIX orthoMatrix, D3DXVECTOR3 cameraLook);
 
 	void EraseGameObject(GameSystem* pGameObject);
 	void Shutdown();

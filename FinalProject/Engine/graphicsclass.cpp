@@ -7,6 +7,7 @@
 #include "DartBoard.h"
 #include "MovingTree.h"
 #include "Dart.h"
+#include "ScoreUI.h"
 
 GraphicsClass::GraphicsClass()
 {
@@ -19,16 +20,21 @@ GraphicsClass::GraphicsClass()
 	m_Light3 = 0;
 	m_Light = 0;
 	m_Text = 0;
+	m_TextureShader = 0;
 	m_pGameObjectMgr[0] = 0;
 	m_pGameObjectMgr[1] = 0;
 	m_pGameObjectMgr[2] = 0;
 	m_SceneNum = 0;
+	m_pGameSystemMgr = 0;
 
 	m_pFps = 0;
 	m_pCpu = 0;
 
 	m_pPlayer = 0;
 	m_pAIPlayer = 0;
+
+	m_pDart = 0;
+	m_pDartBoard = 0;
 }
 
 
@@ -45,7 +51,7 @@ GraphicsClass::~GraphicsClass()
 bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
 	bool result;
-	D3DXMATRIX baseViewMatrix;
+	
 
 	// Create the Direct3D object.
 	m_D3D = new D3DClass;
@@ -70,7 +76,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 0.0f, -250.0f);
+	m_Camera->SetPosition(0.0f, 0.0f, -200.0f);
 	m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
 
 	m_Camera->Render();
@@ -113,6 +119,20 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!result)
 		return false;
 
+	// Create the texture shader object.
+	m_TextureShader = new TextureShaderClass;
+	if (!m_TextureShader)
+	{
+		return false;
+	}
+	// Initialize the texture shader object.
+	result = m_TextureShader->Initialize(m_D3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
+		return false;
+	}
+
 	m_pGameObjectMgr[0] = new GameObjectMgr;
 	if (!m_pGameObjectMgr[0])
 		return false;
@@ -120,7 +140,12 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_pGameObjectMgr[1])
 		return false;
 
+	m_pGameSystemMgr = new GameSystemMgr;
+	if (!m_pGameSystemMgr)
+		return false;
+
 	GameObject* pGameObject = nullptr;
+	GameSystem* pGameSystem = nullptr;
 
 	// Create the model object.
 	pGameObject = new TableClass;
@@ -154,30 +179,37 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	dynamic_cast<MovingTree*>(m_pAIPlayer)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(m_pAIPlayer);
 
-		pGameObject = new DartBoard;
-	if (!pGameObject)
+	m_pDartBoard = new DartBoard;
+	if (!m_pDartBoard)
 		return false;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/11721_darboard_V4_L3.obj", L"./data/target.png");
+	result = m_pDartBoard->Initialize(m_D3D->GetDevice(), L"./data/11721_darboard_V4_L3.obj", L"./data/target.png");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<DartBoard*>(pGameObject)->SetPlayer(m_pPlayer);
-	dynamic_cast<DartBoard*>(pGameObject)->SetAIPlayer(m_pAIPlayer);
-	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+	dynamic_cast<DartBoard*>(m_pDartBoard)->SetPlayer(m_pPlayer);
+	dynamic_cast<DartBoard*>(m_pDartBoard)->SetTree(m_pAIPlayer);
+	m_pGameObjectMgr[0]->PushGameObject(m_pDartBoard);
 
-	pGameObject = new Dart;
-	if (!pGameObject)
+	m_pDart = new Dart;
+	if (!m_pDart)
 		return false;
-	result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/dart.obj", L"./data/red.png");
+	result = m_pDart->Initialize(m_D3D->GetDevice(), L"./data/dart.obj", L"./data/red.png");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<Dart*>(pGameObject)->Init(m_Input);
-	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+	dynamic_cast<Dart*>(m_pDart)->Init(m_Input);
+	m_pGameObjectMgr[0]->PushGameObject(m_pDart);
+
+	pGameSystem = new ScoreUI;
+	if (!pGameSystem)
+		return false;
+	dynamic_cast<ScoreUI*>(pGameSystem)->Init(m_D3D->GetDevice(), screenWidth, screenHeight);
+	dynamic_cast<ScoreUI*>(pGameSystem)->SetObject(m_pDart, m_pDartBoard);
+	m_pGameSystemMgr->PushGameObject(pGameSystem);
 
 	// Create the light shader object.
 	m_LightShader = new LightShaderClass;
@@ -269,6 +301,12 @@ void GraphicsClass::Shutdown()
 		m_pGameObjectMgr[0] = 0;
 	}
 
+	if (m_pGameSystemMgr)
+	{
+		delete m_pGameSystemMgr;
+		m_pGameSystemMgr = 0;
+	}
+
 	// Release the light object.
 	if(m_Light)
 	{
@@ -305,6 +343,14 @@ void GraphicsClass::Shutdown()
 		m_PointLightShader->Shutdown();
 		delete m_PointLightShader;
 		m_PointLightShader = 0;
+	}
+
+	// Release the texture shader object.
+	if (m_TextureShader)
+	{
+		m_TextureShader->Shutdown();
+		delete m_TextureShader;
+		m_TextureShader = 0;
 	}
 	// Release the cpu object.
 	if (m_pCpu)
@@ -357,6 +403,8 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	m_pFps->Frame();
 	m_pCpu->Frame();
 
+	m_Camera->SetPosition(m_Camera->GetPosition().x, 0.0f, m_pDart->GetPos().z - 100.f);
+
 	// Set the frames per second.
 	result = m_Text->SetFps(m_pFps->GetFps(), m_D3D->GetDeviceContext());
 	if (!result)
@@ -392,6 +440,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	{
 		return false;
 	}
+	result = m_pGameSystemMgr->Frame();
 	result = m_Text->SetObject(m_pGameObjectMgr[m_SceneNum]->Get_Size(), m_D3D->GetDeviceContext());
 	if (!result)
 	{
@@ -416,6 +465,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 bool GraphicsClass::Render(float rotation)
 {
 	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
+	D3DXVECTOR3 lookAt;
 	bool result;
 	D3DXVECTOR4 diffuseColor[4];
 	D3DXVECTOR4 lightPosition[4];
@@ -438,6 +488,7 @@ bool GraphicsClass::Render(float rotation)
 
 	// Get the world, view, and projection matrices from the camera and d3d objects.
 	m_Camera->GetViewMatrix(viewMatrix);
+	m_Camera->GetLookAt(lookAt);
 	m_D3D->GetWorldMatrix(worldMatrix);
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 
@@ -457,6 +508,8 @@ bool GraphicsClass::Render(float rotation)
 	{
 		return false;
 	}
+	m_pGameSystemMgr->Render(m_D3D->GetDeviceContext(),m_TextureShader,viewMatrix,worldMatrix, baseViewMatrix ,orthoMatrix, lookAt);
+
 	// Turn off alpha blending after rendering the text.
 	m_D3D->TurnOffAlphaBlending();
 
