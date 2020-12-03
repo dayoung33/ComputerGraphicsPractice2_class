@@ -9,6 +9,8 @@ TextClass::TextClass()
 	m_pPolySentence = 0;
 	m_pObjSentence = 0;
 	m_pScreenSentence = 0;
+	m_pTotalScoreSentence = 0;
+	m_pLevelScoreSentence = 0;
 }
 
 TextClass::TextClass(const TextClass& other)
@@ -89,6 +91,18 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	{
 		return false;
 	}
+	// Initialize the first sentence.
+	result = InitializeSentence(&m_pTotalScoreSentence, 32, device);
+	if (!result)
+	{
+		return false;
+	}
+	// Initialize the first sentence.
+	result = InitializeSentence(&m_pLevelScoreSentence, 64, device);
+	if (!result)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -105,6 +119,10 @@ void TextClass::Shutdown()
 	ReleaseSentence(&m_pScreenSentence);
 	// Release the first sentence.
 	ReleaseSentence(&m_pObjSentence);
+	// Release the first sentence.
+	ReleaseSentence(&m_pTotalScoreSentence);
+	// Release the first sentence.
+	ReleaseSentence(&m_pLevelScoreSentence);
 
 	// Release the second sentence.
 	if (m_pFontShader)
@@ -252,6 +270,62 @@ bool TextClass::SetObject(int obj, ID3D11DeviceContext *deviceContext)
 	{
 		return false;
 	}
+	return true;
+}
+
+bool TextClass::SetTotalScore(int total, ID3D11DeviceContext *deviceContext)
+{
+	char tempString[30];
+	char totalString[30];
+	bool result;
+	// Convert the cpu integer to string format.
+	_itoa_s(total, tempString, 10);
+	// Setup the cpu string.
+	strcpy_s(totalString, "Total Score: ");
+	strcat_s(totalString, tempString);
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_pObjSentence, totalString, 300, 20, 0.0f, 0.0f, 0.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool TextClass::SetLevelScore(int level, int curScore,int goalScore, ID3D11DeviceContext *deviceContext)
+{
+	char tempString[30];
+	char levelString[64];
+	char curString[30];
+	char goalString[30];
+	bool result;
+
+	_itoa_s(level, tempString, 10);
+	strcpy_s(levelString, " Level : ");
+	strcat_s(levelString, tempString);
+	
+	// Convert the cpu integer to string format.
+	_itoa_s(curScore, tempString, 10);
+	strcpy_s(curString, " ( ");
+	strcat_s(levelString, curString);
+	strcat_s(levelString, tempString);
+	strcpy_s(curString, " / ");
+	strcat_s(levelString, curString);
+	//// Setup the cpu string.
+
+
+	_itoa_s(goalScore, tempString, 10);
+	strcat_s(levelString, tempString);
+	strcpy_s(goalString, " )");
+	strcat_s(levelString, goalString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = UpdateSentence(m_pScreenSentence, levelString, 300, 60, 0.0f, 0.0f, 0.0f, deviceContext);
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 

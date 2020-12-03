@@ -14,6 +14,8 @@ public:
 	void Shutdown();
 	void Reset();
 	void ReStart();
+	int GetDartCount() { return m_dartCount; }
+	void ResetDartCount() { m_dartCount = 5; }
 
 private:
 	void Move();
@@ -25,6 +27,9 @@ private:
 
 	bool isMove;
 	bool mouseButtonUp;
+	bool checkInit;
+
+	int m_dartCount;
 
 };
 

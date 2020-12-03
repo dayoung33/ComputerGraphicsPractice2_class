@@ -28,6 +28,7 @@
 #include "CpuClass.h"
 #include "GameSystemMgr.h"
 #include "GameSystem.h"
+#include "SkyBox.h"
 
 /////////////
 // GLOBALS //
@@ -82,6 +83,8 @@ private:
 	CpuClass* m_pCpu;
 
 	D3DXMATRIX baseViewMatrix;
+
+	SkyBox* m_pSkyBox;
 
 	int m_SceneNum;
 };

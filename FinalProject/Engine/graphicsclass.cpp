@@ -35,6 +35,8 @@ GraphicsClass::GraphicsClass()
 
 	m_pDart = 0;
 	m_pDartBoard = 0;
+
+	m_pSkyBox = 0;
 }
 
 
@@ -133,6 +135,11 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	m_pSkyBox = new SkyBox;
+	if (!m_pSkyBox)
+		return false;
+	m_pSkyBox->Initialize(m_D3D->GetDevice(),m_Camera);
+
 	m_pGameObjectMgr[0] = new GameObjectMgr;
 	if (!m_pGameObjectMgr[0])
 		return false;
@@ -207,8 +214,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	pGameSystem = new ScoreUI;
 	if (!pGameSystem)
 		return false;
-	dynamic_cast<ScoreUI*>(pGameSystem)->Init(m_D3D->GetDevice(), screenWidth, screenHeight);
-	dynamic_cast<ScoreUI*>(pGameSystem)->SetObject(m_pDart, m_pDartBoard);
+	dynamic_cast<ScoreUI*>(pGameSystem)->Init(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), screenWidth, screenHeight, hwnd, baseViewMatrix);
+	dynamic_cast<ScoreUI*>(pGameSystem)->SetObject(m_pDart, m_pDartBoard,m_pAIPlayer);
 	m_pGameSystemMgr->PushGameObject(pGameSystem);
 
 	// Create the light shader object.
@@ -374,7 +381,12 @@ void GraphicsClass::Shutdown()
 		delete m_Text;
 		m_Text = 0;
 	}
-
+	if (m_pSkyBox)
+	{
+		m_pSkyBox->Shutdown();
+		delete m_pSkyBox;
+		m_pSkyBox = 0;
+	}
 
 	// Release the camera object.
 	if(m_Camera)
@@ -418,10 +430,6 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 		return false;
 	}
 
-	if (m_Input->IsKeyPressed(DIK_0))
-		m_SceneNum = 1;
-
-	// Update the rotation variable each frame.
 	if(dynamic_cast<MovingTree*>(m_pAIPlayer)->GetWin())
 		m_Light2->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
 	if(dynamic_cast<Player*>(m_pPlayer)->GetWin())
@@ -493,7 +501,7 @@ bool GraphicsClass::Render(float rotation)
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 
 	m_D3D->GetOrthoMatrix(orthoMatrix);
-	
+	m_pSkyBox->Render(m_D3D->GetDeviceContext(), m_TextureShader, worldMatrix, viewMatrix, projectionMatrix);
 	m_pGameObjectMgr[m_SceneNum]->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix, projectionMatrix, m_Camera, m_Light, diffuseColor, lightPosition);
 
 	// Turn off the Z buffer to begin all 2D rendering.
@@ -503,13 +511,14 @@ bool GraphicsClass::Render(float rotation)
 	m_D3D->TurnOnAlphaBlending();
 
 	// Render the text strings.
+
+	m_pGameSystemMgr->Render(m_D3D->GetDeviceContext(),m_TextureShader,viewMatrix,worldMatrix, baseViewMatrix ,orthoMatrix, lookAt);
+	
 	result = m_Text->Render(m_D3D->GetDeviceContext(), worldMatrix, orthoMatrix);
 	if (!result)
 	{
 		return false;
 	}
-	m_pGameSystemMgr->Render(m_D3D->GetDeviceContext(),m_TextureShader,viewMatrix,worldMatrix, baseViewMatrix ,orthoMatrix, lookAt);
-
 	// Turn off alpha blending after rendering the text.
 	m_D3D->TurnOffAlphaBlending();
 

@@ -42,7 +42,7 @@ void DartBoard::Shutdown()
 
 void DartBoard::Reset()
 {
-	//m_vPos = m_vOriginPos;
+	m_vPos = m_vOriginPos;
 	m_pTree->Reset();
 }
 

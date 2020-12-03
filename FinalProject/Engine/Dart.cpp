@@ -7,6 +7,8 @@ Dart::Dart()
 	m_vOriginPos = m_vPos;
 	isMove = false;
 	mouseButtonUp = false;
+	m_dartCount = 5;
+	checkInit = false;
 }
 
 Dart::Dart(Dart &)
@@ -44,9 +46,10 @@ void Dart::Shutdown()
 
 void Dart::Reset()
 {
-	//m_vPos = m_vOriginPos;
+	m_vPos = m_vOriginPos;
 	mouseButtonUp = false;
 	isMove = false;
+	checkInit = false;
 }
 
 void Dart::ReStart()
@@ -56,22 +59,24 @@ void Dart::ReStart()
 
 void Dart::Move()
 {
-	if(m_pInput->IsKeyPressed(DIK_SPACE)){
+	if(m_pInput->IsKeyPressed(DIK_SPACE)&&m_dartCount > 0){
 	//if (m_pInput->GetMouseState().rgbButtons[0] & 0x80) {
 		
-		mouseButtonUp = true;
+		mouseButtonUp = true;	
 	}
 	else
 	{
-		if(mouseButtonUp)
-			isMove = true;
-
-		if (m_vPos.z > 100.f)
-			isMove = false;
+		if (mouseButtonUp) {
+			if (!checkInit) {
+				isMove = true;
+				m_dartCount--;
+				checkInit = true;
+			}
+		}
 
 		if (isMove)
 		{
-			m_vPos.z += 2.f;
+			m_vPos.z += 4.f;
 		}
 	}
 

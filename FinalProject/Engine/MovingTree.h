@@ -17,11 +17,12 @@ public:
 	void SetMoveON(bool moveOn);
 	void SetMoveUp(bool moveUp);
 	bool GetMoveUP() { return IsMoveUp; }
-	void UpScore() { m_iScore++; }
-	int GetScore() { return m_iScore; }
+	void LevelUp() { m_iLevel++; }
+//	int GetScore() { return m_iLevel; }
 	void Reset();
 	void ReStart();
 	bool GetWin() { return m_bWin; }
+	void GameOver(bool over) { m_bOver = over; }
 
 private:
 	void Move();
@@ -31,7 +32,9 @@ private:
 	D3DXVECTOR3 m_vSize;
 	bool IsMoveOn;
 	bool IsMoveUp;
-	int m_iScore;
+
+	int m_iLevel;
+	bool m_bOver;
 	bool m_bWin;
 
 	InputClass* m_pInput;

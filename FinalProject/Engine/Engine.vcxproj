@@ -41,6 +41,7 @@
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ScoreUI.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="soundclass.cpp" />
     <ClCompile Include="systemclass.cpp" />
     <ClCompile Include="TableClass.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="modelclass.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ScoreUI.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="soundclass.h" />
     <ClInclude Include="systemclass.h" />
     <ClInclude Include="TableClass.h" />

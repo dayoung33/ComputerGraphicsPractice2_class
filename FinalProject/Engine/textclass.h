@@ -33,6 +33,9 @@ public:
 	bool SetScreen(int, int, ID3D11DeviceContext*);
 	bool SetObject(int, ID3D11DeviceContext*);
 
+	bool SetTotalScore(int total, ID3D11DeviceContext * deviceContext);
+	bool SetLevelScore(int level, int curScore, int goalScore, ID3D11DeviceContext * deviceContext);
+
 private:
 	bool InitializeSentence(SentenceType**, int, ID3D11Device*);
 	bool UpdateSentence(SentenceType*,char*, int, int, float, float, float, ID3D11DeviceContext*);
@@ -50,6 +53,10 @@ private:
 	SentenceType* m_pPolySentence;
 	SentenceType* m_pObjSentence;
 	SentenceType* m_pScreenSentence;
+
+	SentenceType* m_pTotalScoreSentence;
+	SentenceType* m_pLevelScoreSentence;
+
 
 };
 

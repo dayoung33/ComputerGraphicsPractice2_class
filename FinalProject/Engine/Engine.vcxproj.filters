@@ -81,12 +81,6 @@
     <Filter Include="소스 파일\02. GameSystem\99.GameSystemMgr">
       <UniqueIdentifier>{47738411-3989-49bd-adf2-2f03786dbb13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. GameSystem\00.ScoreUI">
-      <UniqueIdentifier>{17fb193f-c03b-4a4b-a3b8-84a7423beede}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. GameSystem\01.LevelUI">
-      <UniqueIdentifier>{347356d2-78c4-4e3b-a496-f6d0b983dff5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\02. GameSystem\02.Particle">
       <UniqueIdentifier>{bdc497e2-3ee0-49d4-aed6-63edda6ce56b}</UniqueIdentifier>
     </Filter>
@@ -95,6 +89,12 @@
     </Filter>
     <Filter Include="소스 파일\02. GameSystem\97.OpeningUI">
       <UniqueIdentifier>{b4bb0a4b-a210-4afc-be7c-a000fe0aa328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. GameSystem\00.UI">
+      <UniqueIdentifier>{17fb193f-c03b-4a4b-a3b8-84a7423beede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.System\SkyBox">
+      <UniqueIdentifier>{c7dc967f-44e1-4dfe-b9f2-863794b2392c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,13 +174,16 @@
       <Filter>소스 파일\01.GameObject\04.Dart</Filter>
     </ClCompile>
     <ClCompile Include="ScoreUI.cpp">
-      <Filter>소스 파일\02. GameSystem\00.ScoreUI</Filter>
+      <Filter>소스 파일\02. GameSystem\00.UI</Filter>
     </ClCompile>
     <ClCompile Include="GameSystem.cpp">
       <Filter>소스 파일\02. GameSystem</Filter>
     </ClCompile>
     <ClCompile Include="GameSystemMgr.cpp">
       <Filter>소스 파일\02. GameSystem\99.GameSystemMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>소스 파일\00.System\SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,9 +256,6 @@
     <ClInclude Include="DartBoard.h">
       <Filter>소스 파일\01.GameObject\03.DartBoard</Filter>
     </ClInclude>
-    <ClInclude Include="Dart.h">
-      <Filter>소스 파일\01.GameObject\04.Dart</Filter>
-    </ClInclude>
     <ClInclude Include="GameSystem.h">
       <Filter>소스 파일\02. GameSystem</Filter>
     </ClInclude>
@@ -263,7 +263,13 @@
       <Filter>소스 파일\02. GameSystem\99.GameSystemMgr</Filter>
     </ClInclude>
     <ClInclude Include="ScoreUI.h">
-      <Filter>소스 파일\02. GameSystem\00.ScoreUI</Filter>
+      <Filter>소스 파일\02. GameSystem\00.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>소스 파일\00.System\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Dart.h">
+      <Filter>소스 파일\01.GameObject\99.GameObjectMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
