@@ -160,9 +160,9 @@ bool TextClass::SetFps(int fps, ID3D11DeviceContext* deviceContext)
 	// If fps is 60 or above set the fps color to green.
 	if (fps >= 60)
 	{
-		red = 0.0f;
+		red = 1.0f;
 		green = 1.0f;
-		blue = 0.0f;
+		blue = 1.0f;
 	}
 	// If fps is below 60 set the fps color to yellow.
 	if (fps < 60)
@@ -199,7 +199,7 @@ bool TextClass::SetCpu(int cpu, ID3D11DeviceContext* deviceContext)
 	strcat_s(cpuString, tempString);
 	strcat_s(cpuString, "%");
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pCpuSentence, cpuString, 20, 20, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pCpuSentence, cpuString, 20, 20, 1.0f, 1.0f, 1.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -218,7 +218,7 @@ bool TextClass::SetSentence(int Cnt, ID3D11DeviceContext *deviceContext)
 	strcpy_s(polyString, "Polygon Count: ");
 	strcat_s(polyString, tempString);
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pPolySentence, polyString, 20, 40, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pPolySentence, polyString, 20, 40, 1.0f, 1.0f, 1.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -245,7 +245,7 @@ bool TextClass::SetScreen(int width, int heigh, ID3D11DeviceContext *deviceConte
 	strcat_s(widthString, heightString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pScreenSentence, widthString, 20, 60, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pScreenSentence, widthString, 20, 60, 1.0f, 1.0f, 1.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -265,7 +265,7 @@ bool TextClass::SetObject(int obj, ID3D11DeviceContext *deviceContext)
 	strcpy_s(objString, "Object Count: ");
 	strcat_s(objString, tempString);
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pObjSentence, objString, 20, 80, 0.0f, 1.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pObjSentence, objString, 20, 80, 1.0f, 1.0f, 1.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -284,7 +284,7 @@ bool TextClass::SetTotalScore(int total, ID3D11DeviceContext *deviceContext)
 	strcpy_s(totalString, "Total Score: ");
 	strcat_s(totalString, tempString);
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pObjSentence, totalString, 300, 20, 0.0f, 0.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pObjSentence, totalString, 290, 20, 0.0f, 0.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;
@@ -306,7 +306,7 @@ bool TextClass::SetLevelScore(int level, int curScore,int goalScore, ID3D11Devic
 	
 	// Convert the cpu integer to string format.
 	_itoa_s(curScore, tempString, 10);
-	strcpy_s(curString, " ( ");
+	strcpy_s(curString, "                          ( ");
 	strcat_s(levelString, curString);
 	strcat_s(levelString, tempString);
 	strcpy_s(curString, " / ");
@@ -320,7 +320,7 @@ bool TextClass::SetLevelScore(int level, int curScore,int goalScore, ID3D11Devic
 	strcat_s(levelString, goalString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pScreenSentence, levelString, 300, 60, 0.0f, 0.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pScreenSentence, levelString, 280, 70, 0.0f, 0.0f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;

@@ -26,6 +26,9 @@ private:
 	BitmapClass* m_backBoard;
 	BitmapClass* m_countDart;
 	BitmapClass* m_UsedDart;
+	BitmapClass* m_scoreEffect[11];
+	BitmapClass* m_backScore;
+	BitmapClass* m_scoreBar;
 	TextClass*	 m_scoreText;
 	GameObject*	 m_Dart;
 	GameObject*	 m_DartBoard;

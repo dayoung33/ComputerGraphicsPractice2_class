@@ -10,6 +10,11 @@ ScoreUI::ScoreUI()
 	m_curLevel = 1;
 	m_scoreCheck = false;
 	m_goalScore = 20;
+	for (int i = 0; i < 11; i++)
+		m_scoreEffect[i] = 0;
+
+	m_backScore = 0;
+	m_scoreBar = 0;
 }
 
 ScoreUI::ScoreUI(const ScoreUI &)
@@ -44,6 +49,40 @@ void ScoreUI::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 	// Initialize the bitmap object.
 	m_countDart->Initialize(device, screenWidth, screenHeight, L"../Engine/data/dartcount.jpg", 300, 60);
 	
+	m_backScore = new BitmapClass;
+	if (!m_backScore)
+	{
+		return;
+	}
+	// Initialize the bitmap object.
+	m_backScore->Initialize(device, screenWidth, screenHeight, L"../Engine/data/scoreback.png", 200, 30);
+	
+	m_scoreBar = new BitmapClass;
+	if (!m_scoreBar)
+	{
+		return;
+	}
+	// Initialize the bitmap object.
+	m_scoreBar->Initialize(device, screenWidth, screenHeight, L"../Engine/data/red.png", 196, 26);
+
+	for (int i = 0; i < 10; i++)
+	{
+		m_scoreEffect[i] = new BitmapClass;
+		if (!m_scoreEffect[i])
+			return;
+	}
+	m_scoreEffect[0]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/0.png", 10, 20);
+	m_scoreEffect[1]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/1.png", 10, 20);
+	m_scoreEffect[2]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/2.png", 20, 20);
+	m_scoreEffect[3]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/3.png", 20, 20);
+	m_scoreEffect[4]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/4.png", 20, 20);
+	m_scoreEffect[5]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/5.png", 20, 20);
+	m_scoreEffect[6]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/6.png", 20, 20);
+	m_scoreEffect[7]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/7.png", 20, 20);
+	m_scoreEffect[8]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/8.png", 20, 20);
+	m_scoreEffect[9]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/9.png", 20, 20);
+
+
 	m_UsedDart = new BitmapClass;
 	if (!m_UsedDart)
 	{
@@ -91,16 +130,32 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 	pTextureShader->Render(deviceContext, m_backBoard->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_backBoard->GetTexture());
 
-	m_countDart->Render(deviceContext, 450, 20);
+	m_backScore->Render(deviceContext, 270, 60);
+	pTextureShader->Render(deviceContext, m_backScore->GetIndexCount(),
+		worldMatrix, baseViewMatrix, orthoMatrix, m_backScore->GetTexture());
+
+	m_scoreBar->Render(deviceContext, 272, 62);
+	pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
+		worldMatrix, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+
+	m_countDart->Render(deviceContext, 490, 20);
 	pTextureShader->Render(deviceContext, m_countDart->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_countDart->GetTexture());
+
 	int cnt = dynamic_cast<Dart*>(m_Dart)->GetDartCount();
 	for (int i = cnt; i >= 1; i--) {
-		m_UsedDart->Render(deviceContext, 750 - (i*60), 20);
+		m_UsedDart->Render(deviceContext, 790 - (i*60), 20);
 		pTextureShader->Render(deviceContext, m_UsedDart->GetIndexCount(),
 			worldMatrix, baseViewMatrix, orthoMatrix, m_UsedDart->GetTexture());
 	}
+
 	m_scoreText->Render(deviceContext, worldMatrix, orthoMatrix);
+
+	for (int i = 0; i < 10; i++) {
+		m_scoreEffect[i]->Render(deviceContext, 400 + (20*i), 200);
+		pTextureShader->Render(deviceContext, m_scoreEffect[i]->GetIndexCount(),
+			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreEffect[i]->GetTexture());
+	}
 }
 
 void ScoreUI::Shutdown()
@@ -124,6 +179,31 @@ void ScoreUI::Shutdown()
 		delete m_UsedDart;
 		m_UsedDart = 0;
 	}
+
+	if (m_backScore)
+	{
+		m_backScore->Shutdown();
+		delete m_backScore;
+		m_backScore = 0;
+	}
+
+	if (m_scoreBar)
+	{
+		m_scoreBar->Shutdown();
+		delete m_scoreBar;
+		m_scoreBar = 0;
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (m_scoreEffect[i])
+		{
+			m_scoreEffect[i]->Shutdown();
+			delete m_scoreEffect[i];
+			m_scoreEffect[i] = 0;
+		}
+	}
+	
 	// Release the text object.
 	if (m_scoreText)
 	{
