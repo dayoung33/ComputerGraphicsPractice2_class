@@ -15,6 +15,10 @@ ScoreUI::ScoreUI()
 
 	m_backScore = 0;
 	m_scoreBar = 0;
+	m_gameOver = false;
+	m_curscore = 0;
+	m_isColl = false;
+	m_effectY = 0.f;
 }
 
 ScoreUI::ScoreUI(const ScoreUI &)
@@ -71,16 +75,16 @@ void ScoreUI::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 		if (!m_scoreEffect[i])
 			return;
 	}
-	m_scoreEffect[0]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/0.png", 10, 20);
-	m_scoreEffect[1]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/1.png", 10, 20);
-	m_scoreEffect[2]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/2.png", 20, 20);
-	m_scoreEffect[3]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/3.png", 20, 20);
-	m_scoreEffect[4]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/4.png", 20, 20);
-	m_scoreEffect[5]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/5.png", 20, 20);
-	m_scoreEffect[6]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/6.png", 20, 20);
-	m_scoreEffect[7]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/7.png", 20, 20);
-	m_scoreEffect[8]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/8.png", 20, 20);
-	m_scoreEffect[9]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/9.png", 20, 20);
+	m_scoreEffect[0]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/0.png", 20, 30);
+	m_scoreEffect[1]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/1.png", 15, 30);
+	m_scoreEffect[2]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/2.png", 30, 30);
+	m_scoreEffect[3]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/3.png", 30, 30);
+	m_scoreEffect[4]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/4.png", 30, 30);
+	m_scoreEffect[5]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/5.png", 30, 30);
+	m_scoreEffect[6]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/6.png", 30, 30);
+	m_scoreEffect[7]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/7.png", 30, 30);
+	m_scoreEffect[8]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/8.png", 30, 30);
+	m_scoreEffect[9]->Initialize(device, screenWidth, screenHeight, L"../Engine/data/score/9.png", 30, 30);
 
 
 	m_UsedDart = new BitmapClass;
@@ -108,17 +112,29 @@ bool ScoreUI::Frame()
 {
 	if (m_Dart->GetPos().z > 100.f)
 	{
+		LevelUp();
 		m_Dart->Reset();
 		m_DartBoard->Reset();
 	}
-
 	if (checkCollision()) {
-		checkScore();
+		if(m_effectY>-16.f)
+			m_effectY -= 0.4f;
+		else
+		{
+			m_curscore = 0;
+			m_effectY = 0.f;
+		}
+		m_isColl = true;
+		checkScore();	
+		LevelUp();
 		m_Dart->Reset();
 		m_DartBoard->Reset();
-		m_scoreCheck = false;
 	}
-	LevelUp();
+	else {	
+		m_scoreCheck = false;
+		m_isColl = false;
+	}
+	
 	m_scoreText->SetTotalScore(m_totalscore, m_deviceContext);
 	m_scoreText->SetLevelScore(m_curLevel, m_levelscore, m_goalScore, m_deviceContext);
 	return true;
@@ -134,9 +150,13 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 	pTextureShader->Render(deviceContext, m_backScore->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_backScore->GetTexture());
 
+	D3DXMATRIX matTans,matScale;
+	D3DXMatrixTranslation(&matTans, worldMatrix._41*272-(196*0.6f), worldMatrix._42*62, worldMatrix._43);
+	D3DXMatrixScaling(&matScale, 0.1f, 1.0f, 1.0f);
+
 	m_scoreBar->Render(deviceContext, 272, 62);
 	pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
-		worldMatrix, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+		worldMatrix * matScale * matTans, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
 
 	m_countDart->Render(deviceContext, 490, 20);
 	pTextureShader->Render(deviceContext, m_countDart->GetIndexCount(),
@@ -151,11 +171,21 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 
 	m_scoreText->Render(deviceContext, worldMatrix, orthoMatrix);
 
-	for (int i = 0; i < 10; i++) {
-		m_scoreEffect[i]->Render(deviceContext, 400 + (20*i), 200);
-		pTextureShader->Render(deviceContext, m_scoreEffect[i]->GetIndexCount(),
-			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreEffect[i]->GetTexture());
+	if (m_curscore > 0&& m_curscore < 10) {
+		m_scoreEffect[m_curscore]->Render(deviceContext, 400, 250 + m_effectY);
+		pTextureShader->Render(deviceContext, m_scoreEffect[m_curscore]->GetIndexCount(),
+			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreEffect[m_curscore]->GetTexture());
 	}
+	if (m_curscore == 10)
+	{
+		m_scoreEffect[1]->Render(deviceContext, 400, 250 + m_effectY);
+		pTextureShader->Render(deviceContext, m_scoreEffect[1]->GetIndexCount(),
+			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreEffect[1]->GetTexture());
+		m_scoreEffect[0]->Render(deviceContext, 420, 250 + m_effectY);
+		pTextureShader->Render(deviceContext, m_scoreEffect[0]->GetIndexCount(),
+			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreEffect[0]->GetTexture());
+	}
+
 }
 
 void ScoreUI::Shutdown()
@@ -220,6 +250,11 @@ void ScoreUI::SetObject(GameObject * pDart, GameObject * pBoard, GameObject* pTr
 	m_pTree = pTree;
 }
 
+void ScoreUI::SetGame(bool isStart)
+{
+	dynamic_cast<Dart*>(m_Dart)->SetStart(true);
+}
+
 bool ScoreUI::checkCollision()
 {
 	D3DXVECTOR2 dPos = { m_Dart->GetPos().x,m_Dart->GetPos().y };
@@ -234,54 +269,64 @@ bool ScoreUI::checkCollision()
 
 int ScoreUI::checkScore()
 {
-	if (m_scoreCheck) return 0;
-	m_scoreCheck = true;
-	D3DXVECTOR2 dPos = { m_Dart->GetPos().x,m_Dart->GetPos().y };
-	D3DXVECTOR2 bPos = { m_DartBoard->GetPos().x,m_DartBoard->GetPos().y };
+	if (!m_scoreCheck) {
+		m_scoreCheck = true;
+		D3DXVECTOR2 dPos = { m_Dart->GetPos().x,m_Dart->GetPos().y };
+		D3DXVECTOR2 bPos = { m_DartBoard->GetPos().x,m_DartBoard->GetPos().y };
 
-	if (D3DXVec2Length(&(dPos - bPos)) < 2.5f) {
-		m_levelscore += 10;
-		m_totalscore += 100 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 5.5f) {
-		m_levelscore += 9;
-		m_totalscore += 90 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 8.f) {
-		m_levelscore += 8;
-		m_totalscore += 80 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 10.5f) {
-		m_levelscore += 7;
-		m_totalscore += 70 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 13.5f) {
-		m_levelscore += 6;
-		m_totalscore += 60 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 16.f) {
-	
-		m_levelscore += 5;
-		m_totalscore += 50 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 18.5f) {
-		m_levelscore += 4;
-		m_totalscore += 40 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 21.5f) {
-		m_levelscore += 3;
-		m_totalscore += 30 * m_curLevel;
-	}
-	else if (D3DXVec2Length(&(dPos - bPos)) < 24.5f) {
-		m_levelscore += 2;
-		m_totalscore += 20 * m_curLevel;
-	}
-	else{
-		m_levelscore += 1;
-		m_totalscore += 10 * m_curLevel;
-	}
+		if (D3DXVec2Length(&(dPos - bPos)) < 2.5f) {
+			m_levelscore += 10;
+			m_totalscore += 100 * m_curLevel;
+			m_curscore = 10;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 5.5f) {
+			m_levelscore += 9;
+			m_totalscore += 90 * m_curLevel;
+			m_curscore = 9;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 8.f) {
+			m_levelscore += 8;
+			m_totalscore += 80 * m_curLevel;
+			m_curscore = 8;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 10.5f) {
+			m_levelscore += 7;
+			m_totalscore += 70 * m_curLevel;
+			m_curscore = 7;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 13.5f) {
+			m_levelscore += 6;
+			m_totalscore += 60 * m_curLevel;
+			m_curscore = 6;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 16.f) {
 
+			m_levelscore += 5;
+			m_totalscore += 50 * m_curLevel;
+			m_curscore = 5;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 18.5f) {
+			m_levelscore += 4;
+			m_totalscore += 40 * m_curLevel;
+			m_curscore = 4;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 21.5f) {
+			m_levelscore += 3;
+			m_totalscore += 30 * m_curLevel;
+			m_curscore = 3;
+		}
+		else if (D3DXVec2Length(&(dPos - bPos)) < 24.5f) {
+			m_levelscore += 2;
+			m_totalscore += 20 * m_curLevel;
+			m_curscore = 2;
+		}
+		else {
+			m_levelscore += 1;
+			m_totalscore += 10 * m_curLevel;
+			m_curscore = 1;
+		}
 
+	}
 
 	return 0;
 }
@@ -298,7 +343,9 @@ void ScoreUI::LevelUp()
 		dynamic_cast<Dart*>(m_Dart)->ResetDartCount();
 		dynamic_cast<MovingTree*>(m_pTree)->LevelUp();
 	}
-	else
+	else {
 		dynamic_cast<MovingTree*>(m_pTree)->GameOver(true);
+		m_gameOver = true;
+	}
 	
 }

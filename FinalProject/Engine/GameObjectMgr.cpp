@@ -1,4 +1,5 @@
 #include "GameObjectMgr.h"
+#include "Particle.h"
 GameObjectMgr::GameObjectMgr()
 {
 }
@@ -42,8 +43,17 @@ void GameObjectMgr::Render(ID3D11DeviceContext* deviceContext, LightShaderClass 
 
 	for (auto iter : m_GameObjectLst)
 	{
-		iter->Render(deviceContext);
-		pLightShader->Render(deviceContext, iter, viewMatrix, projectionMatrix, pCamera, pLight, vDiffusecolor, vLightPosition);
+		if (dynamic_cast<Particle*>(iter) != nullptr)
+		{
+			if (dynamic_cast<Particle*>(iter)->GetisHidden() == false) {
+				iter->Render(deviceContext);
+				pLightShader->Render(deviceContext, iter, viewMatrix, projectionMatrix, pCamera, pLight, vDiffusecolor, vLightPosition);
+			}
+		}
+		else {
+			iter->Render(deviceContext);
+			pLightShader->Render(deviceContext, iter, viewMatrix, projectionMatrix, pCamera, pLight, vDiffusecolor, vLightPosition);
+		}
 	}
 }
 

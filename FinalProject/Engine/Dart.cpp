@@ -9,6 +9,8 @@ Dart::Dart()
 	mouseButtonUp = false;
 	m_dartCount = 5;
 	checkInit = false;
+	gameStart = false;
+
 }
 
 Dart::Dart(Dart &)
@@ -30,13 +32,15 @@ void Dart::Init(InputClass * _input)
 
 bool Dart::Frame()
 {
-	Move();
-	D3DXMATRIX matTans, matRotX, matScale;
-	D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y, m_vPos.z);
-	D3DXMatrixScaling(&matScale, 2.0f, 2.0f, 2.0f);
-	D3DXMatrixRotationY(&matRotX, D3DXToRadian(90.f));
+	if (gameStart) {
+		Move();
+		D3DXMATRIX matTans, matRotX, matScale;
+		D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y, m_vPos.z);
+		D3DXMatrixScaling(&matScale, 2.0f, 2.0f, 2.0f);
+		D3DXMatrixRotationY(&matRotX, D3DXToRadian(90.f));
 
-	m_matWorld = matScale * matRotX * matTans ;
+		m_matWorld = matScale * matRotX * matTans;
+	}
 	return true;
 }
 
@@ -46,7 +50,7 @@ void Dart::Shutdown()
 
 void Dart::Reset()
 {
-	m_vPos = m_vOriginPos;
+	
 	mouseButtonUp = false;
 	isMove = false;
 	checkInit = false;
@@ -61,7 +65,7 @@ void Dart::Move()
 {
 	if(m_pInput->IsKeyPressed(DIK_SPACE)&&m_dartCount > 0){
 	//if (m_pInput->GetMouseState().rgbButtons[0] & 0x80) {
-		
+		m_vPos = m_vOriginPos;
 		mouseButtonUp = true;	
 	}
 	else

@@ -8,7 +8,6 @@ DartBoard::DartBoard()
 	m_vPos = { 0.f, 0.f, 75.f };
 	m_vOriginPos = m_vPos;
 	m_vDir = { 0.0f, 0.0f, 0.0f };
-	gameStart = false;
 
 }
 
@@ -42,7 +41,7 @@ void DartBoard::Shutdown()
 
 void DartBoard::Reset()
 {
-	m_vPos = m_vOriginPos;
+	//m_vPos = m_vOriginPos;
 	m_pTree->Reset();
 }
 

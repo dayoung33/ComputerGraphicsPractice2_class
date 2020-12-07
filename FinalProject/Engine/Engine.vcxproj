@@ -39,6 +39,8 @@
     <ClCompile Include="lightshaderclass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modelclass.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="SceneUI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ScoreUI.cpp" />
     <ClCompile Include="SkyBox.cpp" />
@@ -69,6 +71,8 @@
     <ClInclude Include="lightclass.h" />
     <ClInclude Include="lightshaderclass.h" />
     <ClInclude Include="modelclass.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="SceneUI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ScoreUI.h" />
     <ClInclude Include="SkyBox.h" />

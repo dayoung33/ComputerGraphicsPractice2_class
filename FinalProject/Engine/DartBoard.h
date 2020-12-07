@@ -30,8 +30,5 @@ private:
 	D3DXVECTOR3 m_vOriginPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vSize;
-
-	bool gameStart;
-
 };
 

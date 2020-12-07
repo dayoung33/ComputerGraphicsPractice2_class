@@ -74,7 +74,7 @@ private:
 	InputClass* m_Input;
 	GameObjectMgr* m_pGameObjectMgr[3];
 	GameObject* m_pPlayer;
-	GameObject* m_pAIPlayer;
+	GameObject* m_pMovingTree;
 	GameObject* m_pDart;
 	GameObject* m_pDartBoard;
 	GameSystemMgr* m_pGameSystemMgr;

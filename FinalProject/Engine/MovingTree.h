@@ -37,6 +37,8 @@ private:
 	bool m_bOver;
 	bool m_bWin;
 
+	bool m_bInitBT;
+
 	InputClass* m_pInput;
 
 };

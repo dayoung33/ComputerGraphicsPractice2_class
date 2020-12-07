@@ -8,6 +8,8 @@
 #include "MovingTree.h"
 #include "Dart.h"
 #include "ScoreUI.h"
+#include "SceneUI.h"
+#include "Particle.h"
 
 GraphicsClass::GraphicsClass()
 {
@@ -31,7 +33,7 @@ GraphicsClass::GraphicsClass()
 	m_pCpu = 0;
 
 	m_pPlayer = 0;
-	m_pAIPlayer = 0;
+	m_pMovingTree = 0;
 
 	m_pDart = 0;
 	m_pDartBoard = 0;
@@ -152,7 +154,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 
 	GameObject* pGameObject = nullptr;
-	GameSystem* pGameSystem = nullptr;
 
 	// Create the model object.
 	pGameObject = new TableClass;
@@ -166,6 +167,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
 
+	
 	m_pPlayer = new Player;
 	result = m_pPlayer->Initialize(m_D3D->GetDevice(), L"./data/12221_Cat_v1_l3.obj", L"./data/Cat_diffuse.jpg");
 	if (!result)
@@ -176,15 +178,15 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	dynamic_cast<Player*>(m_pPlayer)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(m_pPlayer);
 
-	m_pAIPlayer = new MovingTree;
-	result = m_pAIPlayer->Initialize(m_D3D->GetDevice(), L"./data/10447_Pine_Tree_v1_L3b.obj", L"./data/10447_Pine_Tree_v1_Diffuse.jpg");
+	m_pMovingTree = new MovingTree;
+	result = m_pMovingTree->Initialize(m_D3D->GetDevice(), L"./data/10447_Pine_Tree_v1_L3b.obj", L"./data/10447_Pine_Tree_v1_Diffuse.jpg");
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	dynamic_cast<MovingTree*>(m_pAIPlayer)->Init(m_Input);
-	m_pGameObjectMgr[0]->PushGameObject(m_pAIPlayer);
+	dynamic_cast<MovingTree*>(m_pMovingTree)->Init(m_Input);
+	m_pGameObjectMgr[0]->PushGameObject(m_pMovingTree);
 
 	m_pDartBoard = new DartBoard;
 	if (!m_pDartBoard)
@@ -196,7 +198,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 	dynamic_cast<DartBoard*>(m_pDartBoard)->SetPlayer(m_pPlayer);
-	dynamic_cast<DartBoard*>(m_pDartBoard)->SetTree(m_pAIPlayer);
+	dynamic_cast<DartBoard*>(m_pDartBoard)->SetTree(m_pMovingTree);
 	m_pGameObjectMgr[0]->PushGameObject(m_pDartBoard);
 
 	m_pDart = new Dart;
@@ -211,12 +213,38 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	dynamic_cast<Dart*>(m_pDart)->Init(m_Input);
 	m_pGameObjectMgr[0]->PushGameObject(m_pDart);
 
+	GameSystem* pGameSystem = nullptr;
 	pGameSystem = new ScoreUI;
 	if (!pGameSystem)
 		return false;
 	dynamic_cast<ScoreUI*>(pGameSystem)->Init(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), screenWidth, screenHeight, hwnd, baseViewMatrix);
-	dynamic_cast<ScoreUI*>(pGameSystem)->SetObject(m_pDart, m_pDartBoard,m_pAIPlayer);
+	dynamic_cast<ScoreUI*>(pGameSystem)->SetObject(m_pDart, m_pDartBoard, m_pMovingTree);
 	m_pGameSystemMgr->PushGameObject(pGameSystem);
+
+	GameSystem* pSceneSystem = nullptr;
+	pSceneSystem = new SceneUI;
+	if (!pSceneSystem)
+		return false;
+	dynamic_cast<SceneUI*>(pSceneSystem)->Init(m_Input, m_D3D->GetDevice(), m_D3D->GetDeviceContext(), screenWidth, screenHeight, hwnd, baseViewMatrix);
+	dynamic_cast<SceneUI*>(pSceneSystem)->SetScoreUI(pGameSystem);
+	m_pGameSystemMgr->PushGameObject(pSceneSystem);
+
+	for (int i = 0; i < 10; i++) {
+		pGameObject = new Particle;
+		if (!pGameObject)
+			return false;
+		result = pGameObject->Initialize(m_D3D->GetDevice(), L"./data/10507_Golf Ball_v1_L3.obj", L"./data/white.png");
+		if (!result)
+		{
+			MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+			return false;
+		}
+		if (i % 2 == 0)
+			dynamic_cast<Particle*>(pGameObject)->Init(D3DXVECTOR3{ -50.f + (i * 10),10.f + (i*3.f), 80.f }, false, pGameSystem);
+		else
+			dynamic_cast<Particle*>(pGameObject)->Init(D3DXVECTOR3{ -50.f + (i * 10),10.f - (i*3.f), 75.f }, true, pGameSystem);
+		m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+	}
 
 	// Create the light shader object.
 	m_LightShader = new LightShaderClass;
@@ -430,13 +458,13 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 		return false;
 	}
 
-	if(dynamic_cast<MovingTree*>(m_pAIPlayer)->GetWin())
+	if(dynamic_cast<MovingTree*>(m_pMovingTree)->GetWin())
 		m_Light2->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
 	if(dynamic_cast<Player*>(m_pPlayer)->GetWin())
 		m_Light2->SetDiffuseColor(1.0f, 1.0f, 0.0f, 1.0f);
 
 	m_Light1->SetPosition(90.0f, 1.0f, m_pPlayer->GetPos().y);
-	m_Light3->SetPosition(-90.0f, 1.0f, m_pAIPlayer->GetPos().y);
+	m_Light3->SetPosition(-90.0f, 1.0f, m_pMovingTree->GetPos().y);
 
 	rotation += (float)D3DX_PI * 0.005f;
 	if(rotation > 360.0f)

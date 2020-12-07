@@ -12,10 +12,12 @@ public:
 	void Init(InputClass* _input);
 	virtual bool Frame();
 	void Shutdown();
+
 	void Reset();
 	void ReStart();
 	int GetDartCount() { return m_dartCount; }
 	void ResetDartCount() { m_dartCount = 5; }
+	void SetStart(bool isStart) { gameStart = isStart; }
 
 private:
 	void Move();
@@ -30,6 +32,8 @@ private:
 	bool checkInit;
 
 	int m_dartCount;
+	bool gameStart;
+
 
 };
 

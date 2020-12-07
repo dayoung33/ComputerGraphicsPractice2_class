@@ -10,6 +10,7 @@ MovingTree::MovingTree()
 	m_bWin = false;
 	m_pInput = 0;
 	m_bOver = false;
+	m_bInitBT = false;
 }
 
 MovingTree::MovingTree(MovingTree &)
@@ -32,8 +33,14 @@ void MovingTree::Init(InputClass * _input)
 bool MovingTree::Frame()
 {
 	if (!m_bOver) {
-		if (m_pInput->IsKeyPressed(DIK_SPACE)) //if (m_pInput->GetMouseState().rgbButtons[0] & 0x80)
+		if (m_pInput->IsKeyPressed(DIK_SPACE)) {//if (m_pInput->GetMouseState().rgbButtons[0] & 0x80)
+			
+			if (!m_bInitBT) { 
+				m_vPos = m_vOriginPos;
+				m_bInitBT = true;
+			}
 			IsMoveOn = true;
+		}
 		//else
 		//	IsMoveOn = false;
 		Move();
@@ -84,8 +91,8 @@ void MovingTree::Move()
 
 void MovingTree::Reset()
 {
-	m_vPos = m_vOriginPos;
 	IsMoveOn = false;
+	m_bInitBT = false;
 }
 void MovingTree::ReStart()
 {
