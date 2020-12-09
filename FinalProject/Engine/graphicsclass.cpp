@@ -80,8 +80,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 0.0f, -200.0f);
-	m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
+	m_Camera->SetPosition(0.0f, 10.0f, -200.0f);
 
 	m_Camera->Render();
 	m_Camera->GetViewMatrix(baseViewMatrix);
@@ -443,7 +442,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	m_pFps->Frame();
 	m_pCpu->Frame();
 
-	m_Camera->SetPosition(m_Camera->GetPosition().x, 0.0f, m_pDart->GetPos().z - 100.f);
+	m_Camera->SetPosition(m_Camera->GetPosition().x, m_Camera->GetPosition().y, m_pDart->GetPos().z - 100.f);
 
 	// Set the frames per second.
 	result = m_Text->SetFps(m_pFps->GetFps(), m_D3D->GetDeviceContext());

@@ -150,13 +150,14 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 	pTextureShader->Render(deviceContext, m_backScore->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_backScore->GetTexture());
 
-	D3DXMATRIX matTans,matScale;
-	D3DXMatrixTranslation(&matTans, worldMatrix._41*272-(196*0.6f), worldMatrix._42*62, worldMatrix._43);
-	D3DXMatrixScaling(&matScale, 0.1f, 1.0f, 1.0f);
-
-	m_scoreBar->Render(deviceContext, 272, 62);
+	D3DXMATRIX matScale;
+	float gage = (m_levelscore*1.f) / (m_goalScore*1.f);
+	if (m_levelscore >= m_goalScore)
+		gage = 1.f;
+	D3DXMatrixScaling(&matScale, gage, 1.0f, 1.0f);
+	m_scoreBar->Render(deviceContext, 272-(196 * (1.f - gage)), 62);
 	pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
-		worldMatrix * matScale * matTans, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+		worldMatrix*matScale, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
 
 	m_countDart->Render(deviceContext, 490, 20);
 	pTextureShader->Render(deviceContext, m_countDart->GetIndexCount(),

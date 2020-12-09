@@ -53,7 +53,7 @@ public:
 	~ModelClass();
 
 	bool Initialize(ID3D11Device*, const wchar_t*, const wchar_t*);
-	bool InitializePlane(ID3D11Device * device, const wchar_t * textureFilename);
+	bool InitializePlane(ID3D11Device * device, const wchar_t * modelFilename, const wchar_t * textureFilename);
 
 	void Shutdown();
 	void Render(ID3D11DeviceContext*);
@@ -64,13 +64,13 @@ public:
 
 	bool ReadFileCounts(const wchar_t *);
 	bool LoadModel(const wchar_t*);
+	bool LoadTextModel(const wchar_t*);
 	void ReleaseModel();
 
 
 
 private:
 	bool InitializeBuffers(ID3D11Device*);
-	bool InitializePlaneBuffers(ID3D11Device * device);
 	void ShutdownBuffers();
 	void RenderBuffers(ID3D11DeviceContext*);
 

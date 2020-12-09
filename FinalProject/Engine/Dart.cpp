@@ -34,12 +34,12 @@ bool Dart::Frame()
 {
 	if (gameStart) {
 		Move();
-		D3DXMATRIX matTans, matRotX, matScale;
+		D3DXMATRIX matTans, matRotY, matScale;
 		D3DXMatrixTranslation(&matTans, m_vPos.x, m_vPos.y, m_vPos.z);
 		D3DXMatrixScaling(&matScale, 2.0f, 2.0f, 2.0f);
-		D3DXMatrixRotationY(&matRotX, D3DXToRadian(90.f));
+		D3DXMatrixRotationY(&matRotY, D3DXToRadian(90.f));
 
-		m_matWorld = matScale * matRotX * matTans;
+		m_matWorld = matScale * matRotY * matTans;
 	}
 	return true;
 }
