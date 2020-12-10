@@ -23,10 +23,7 @@ GraphicsClass::GraphicsClass()
 	m_Light = 0;
 	m_Text = 0;
 	m_TextureShader = 0;
-	m_pGameObjectMgr[0] = 0;
-	m_pGameObjectMgr[1] = 0;
-	m_pGameObjectMgr[2] = 0;
-	m_SceneNum = 0;
+	m_pGameObjectMgr = 0;
 	m_pGameSystemMgr = 0;
 
 	m_pFps = 0;
@@ -39,6 +36,8 @@ GraphicsClass::GraphicsClass()
 	m_pDartBoard = 0;
 
 	m_pSkyBox = 0;
+	m_bCameraMode = false;
+	m_bIsPressed = false;
 }
 
 
@@ -141,11 +140,8 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	m_pSkyBox->Initialize(m_D3D->GetDevice(),m_Camera);
 
-	m_pGameObjectMgr[0] = new GameObjectMgr;
-	if (!m_pGameObjectMgr[0])
-		return false;
-	m_pGameObjectMgr[1] = new GameObjectMgr;
-	if (!m_pGameObjectMgr[1])
+	m_pGameObjectMgr = new GameObjectMgr;
+	if (!m_pGameObjectMgr)
 		return false;
 
 	m_pGameSystemMgr = new GameSystemMgr;
@@ -164,7 +160,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
 		return false;
 	}
-	m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+	m_pGameObjectMgr->PushGameObject(pGameObject);
 
 	
 	m_pPlayer = new Player;
@@ -175,7 +171,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 	dynamic_cast<Player*>(m_pPlayer)->Init(m_Input);
-	m_pGameObjectMgr[0]->PushGameObject(m_pPlayer);
+	m_pGameObjectMgr->PushGameObject(m_pPlayer);
 
 	m_pMovingTree = new MovingTree;
 	result = m_pMovingTree->Initialize(m_D3D->GetDevice(), L"./data/10447_Pine_Tree_v1_L3b.obj", L"./data/10447_Pine_Tree_v1_Diffuse.jpg");
@@ -185,7 +181,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 	dynamic_cast<MovingTree*>(m_pMovingTree)->Init(m_Input);
-	m_pGameObjectMgr[0]->PushGameObject(m_pMovingTree);
+	m_pGameObjectMgr->PushGameObject(m_pMovingTree);
 
 	m_pDartBoard = new DartBoard;
 	if (!m_pDartBoard)
@@ -198,7 +194,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	dynamic_cast<DartBoard*>(m_pDartBoard)->SetPlayer(m_pPlayer);
 	dynamic_cast<DartBoard*>(m_pDartBoard)->SetTree(m_pMovingTree);
-	m_pGameObjectMgr[0]->PushGameObject(m_pDartBoard);
+	m_pGameObjectMgr->PushGameObject(m_pDartBoard);
 
 	m_pDart = new Dart;
 	if (!m_pDart)
@@ -210,7 +206,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 	dynamic_cast<Dart*>(m_pDart)->Init(m_Input);
-	m_pGameObjectMgr[0]->PushGameObject(m_pDart);
+	m_pGameObjectMgr->PushGameObject(m_pDart);
 
 	GameSystem* pGameSystem = nullptr;
 	pGameSystem = new ScoreUI;
@@ -242,7 +238,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 			dynamic_cast<Particle*>(pGameObject)->Init(D3DXVECTOR3{ -50.f + (i * 10),10.f + (i*3.f), 80.f }, false, pGameSystem);
 		else
 			dynamic_cast<Particle*>(pGameObject)->Init(D3DXVECTOR3{ -50.f + (i * 10),10.f - (i*3.f), 75.f }, true, pGameSystem);
-		m_pGameObjectMgr[0]->PushGameObject(pGameObject);
+		m_pGameObjectMgr->PushGameObject(pGameObject);
 	}
 
 	// Create the light shader object.
@@ -329,10 +325,10 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 void GraphicsClass::Shutdown()
 {
 	
-	if (m_pGameObjectMgr[0])
+	if (m_pGameObjectMgr)
 	{
-		delete m_pGameObjectMgr[0];
-		m_pGameObjectMgr[0] = 0;
+		delete m_pGameObjectMgr;
+		m_pGameObjectMgr = 0;
 	}
 
 	if (m_pGameSystemMgr)
@@ -437,12 +433,26 @@ void GraphicsClass::Shutdown()
 bool GraphicsClass::Frame(int mouseX, int mouseY)
 {
 	bool result;
-	static float rotation = 0.0f;
 
 	m_pFps->Frame();
 	m_pCpu->Frame();
 
-	m_Camera->SetPosition(m_Camera->GetPosition().x, m_Camera->GetPosition().y, m_pDart->GetPos().z - 100.f);
+	if (m_Input->IsKeyPressed(DIK_TAB))
+		m_bIsPressed = true;	
+	else
+	{
+		if (m_bIsPressed) {
+			m_bCameraMode = !m_bCameraMode;
+			m_bIsPressed = false;
+		}
+	}
+	if (m_bCameraMode) {
+		m_Camera->SetPosition(m_Camera->GetPosition().x, m_Camera->GetPosition().y, m_Camera->GetPosition().z);
+	}
+	else {
+		m_Camera->SetPosition(m_pDart->GetPos().x, m_pDart->GetPos().y, m_pDart->GetPos().z - 100.f);
+		m_Camera->SetRotation(0.f, 0.f, 0.f);
+	}
 
 	// Set the frames per second.
 	result = m_Text->SetFps(m_pFps->GetFps(), m_D3D->GetDeviceContext());
@@ -457,36 +467,26 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 		return false;
 	}
 
-	if(dynamic_cast<MovingTree*>(m_pMovingTree)->GetWin())
-		m_Light2->SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-	if(dynamic_cast<Player*>(m_pPlayer)->GetWin())
-		m_Light2->SetDiffuseColor(1.0f, 1.0f, 0.0f, 1.0f);
+	m_Light1->SetPosition(0.0f, 1.0f, 0.0f);
+	m_Light3->SetPosition(0.0f, 1.0f, 0.0f );
 
-	m_Light1->SetPosition(90.0f, 1.0f, m_pPlayer->GetPos().y);
-	m_Light3->SetPosition(-90.0f, 1.0f, m_pMovingTree->GetPos().y);
-
-	rotation += (float)D3DX_PI * 0.005f;
-	if(rotation > 360.0f)
-	{
-		rotation -= 360.0f;
-	}
-	result = m_pGameObjectMgr[m_SceneNum]->Frame();
+	result = m_pGameObjectMgr->Frame();
 	if (!result)
 	{
 		return false;
 	}
 	result = m_pGameSystemMgr->Frame();
-	result = m_Text->SetObject(m_pGameObjectMgr[m_SceneNum]->Get_Size(), m_D3D->GetDeviceContext());
+	result = m_Text->SetObject(m_pGameObjectMgr->Get_Size(), m_D3D->GetDeviceContext());
 	if (!result)
 	{
 		return false;
 	}
-	result = m_Text->SetSentence(m_pGameObjectMgr[m_SceneNum]->Get_PolySize(), m_D3D->GetDeviceContext());
+	result = m_Text->SetSentence(m_pGameObjectMgr->Get_PolySize(), m_D3D->GetDeviceContext());
 	if (!result)
 		return false;
 
 	// Render the graphics scene.
-	result = Render(rotation);
+	result = Render();
 	if(!result)
 	{
 		return false;
@@ -497,7 +497,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 
 
 
-bool GraphicsClass::Render(float rotation)
+bool GraphicsClass::Render()
 {
 	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	D3DXVECTOR3 lookAt;
@@ -529,7 +529,7 @@ bool GraphicsClass::Render(float rotation)
 
 	m_D3D->GetOrthoMatrix(orthoMatrix);
 	m_pSkyBox->Render(m_D3D->GetDeviceContext(), m_TextureShader, worldMatrix, viewMatrix, projectionMatrix);
-	m_pGameObjectMgr[m_SceneNum]->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix, projectionMatrix, m_Camera, m_Light, diffuseColor, lightPosition);
+	m_pGameObjectMgr->Render(m_D3D->GetDeviceContext(), m_LightShader, viewMatrix, projectionMatrix, m_Camera, m_Light, diffuseColor, lightPosition);
 
 	// Turn off the Z buffer to begin all 2D rendering.
 	m_D3D->TurnZBufferOff();

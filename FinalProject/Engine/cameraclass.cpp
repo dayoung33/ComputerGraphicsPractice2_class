@@ -47,8 +47,8 @@ void CameraClass::SetPosition(float x, float y, float z)
 
 void CameraClass::SetRotation(float x, float y, float z)
 {
-	m_rotation.x = x;
-	m_rotation.y = y;
+	yaw = x;
+	pitch = y;
 	m_rotation.z = z;
 	return;
 }
@@ -62,7 +62,7 @@ D3DXVECTOR3 CameraClass::GetPosition()
 
 D3DXVECTOR3 CameraClass::GetRotation()
 {
-	return D3DXVECTOR3(m_rotation.x, m_rotation.y, m_rotation.z);
+	return D3DXVECTOR3(yaw, pitch, m_rotation.z);
 }
 
 

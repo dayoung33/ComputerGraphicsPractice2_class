@@ -59,7 +59,7 @@ public:
 	void CamLookRotate(DIMOUSESTATE& curMouse, DIMOUSESTATE& nextMouse);
 	void SetInput(InputClass* _Input);
 private:
-	bool Render(float);
+	bool Render();
 
 private:
 	D3DClass* m_D3D;
@@ -72,7 +72,7 @@ private:
 	TextClass* m_Text;
 	BitmapClass* m_Bitmap;
 	InputClass* m_Input;
-	GameObjectMgr* m_pGameObjectMgr[3];
+	GameObjectMgr* m_pGameObjectMgr;
 	GameObject* m_pPlayer;
 	GameObject* m_pMovingTree;
 	GameObject* m_pDart;
@@ -86,7 +86,8 @@ private:
 
 	SkyBox* m_pSkyBox;
 
-	int m_SceneNum;
+	bool m_bCameraMode;
+	bool m_bIsPressed;
 };
 
 #endif

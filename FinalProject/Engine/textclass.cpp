@@ -320,7 +320,7 @@ bool TextClass::SetLevelScore(int level, int curScore,int goalScore, ID3D11Devic
 	strcat_s(levelString, goalString);
 
 	// Update the sentence vertex buffer with the new string information.
-	result = UpdateSentence(m_pScreenSentence, levelString, 280, 70, 0.0f, 0.0f, 0.0f, deviceContext);
+	result = UpdateSentence(m_pScreenSentence, levelString, 280, 70, 1.0f, 0.5f, 0.0f, deviceContext);
 	if (!result)
 	{
 		return false;

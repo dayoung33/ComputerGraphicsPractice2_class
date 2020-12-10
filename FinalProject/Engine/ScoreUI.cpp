@@ -21,6 +21,7 @@ ScoreUI::ScoreUI()
 	m_isColl = false;
 	m_effectY = 0.f;
 	m_collSound = 0;
+	m_cnt = 0;
 }
 
 ScoreUI::ScoreUI(const ScoreUI &)
@@ -61,7 +62,7 @@ void ScoreUI::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 		return;
 	}
 	// Initialize the bitmap object.
-	m_backScore->Initialize(device, screenWidth, screenHeight, L"../Engine/data/scoreback.png", 200, 30);
+	m_backScore->Initialize(device, screenWidth, screenHeight, L"../Engine/data/scoreback.png", 202, 30);
 	
 	m_scoreBar = new BitmapClass;
 	if (!m_scoreBar)
@@ -69,7 +70,7 @@ void ScoreUI::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 		return;
 	}
 	// Initialize the bitmap object.
-	m_scoreBar->Initialize(device, screenWidth, screenHeight, L"../Engine/data/red.png", 196, 26);
+	m_scoreBar->Initialize(device, screenWidth, screenHeight, L"../Engine/data/red.png", 20, 26);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -150,39 +151,16 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 	pTextureShader->Render(deviceContext, m_backBoard->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_backBoard->GetTexture());
 
-	m_backScore->Render(deviceContext, 270, 60);
+	m_backScore->Render(deviceContext, 271, 60);
 	pTextureShader->Render(deviceContext, m_backScore->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_backScore->GetTexture());
 
-	D3DXMATRIX matScale;
-	float gage = (m_levelscore*1.f) / (m_goalScore*1.f);
-	if (gage > 0.1f&&gage < 0.2f)
-		gage = 0.1f;
-	else if (gage > 0.2f &&gage < 0.3f)
-		gage = 0.2f;
-	else if (gage > 0.3f &&gage < 0.4f)
-		gage = 0.3f;
-	else if (gage > 0.4f &&gage < 0.5f)
-		gage = 0.4f;
-	else if (gage > 0.5f &&gage < 0.6f)
-		gage = 0.5f;
-	else if (gage > 0.6f &&gage < 0.7f)
-		gage = 0.6f;
-	else if (gage > 0.7f &&gage < 0.8f)
-		gage = 0.7f;
-	else if (gage > 0.8f &&gage < 0.9f)
-		gage = 0.8f;
-	else if (gage > 0.9f &&gage < 1.0f)
-		gage = 0.9f;
-	if (m_levelscore >= m_goalScore)
-		gage = 1.f;
-	if (gage > 0.f) {
-		D3DXMatrixScaling(&matScale, gage, 1.0f, 1.0f);
-		m_scoreBar->Render(deviceContext, 272 /*- (196 * (1.f - gage))*/, 62);
+	for (int i = 0; i < m_cnt; i++) {
+		m_scoreBar->Render(deviceContext, 272 + (i*20), 62);
 		pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
-			worldMatrix*matScale, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+			worldMatrix, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
 	}
-
+	
 	m_countDart->Render(deviceContext, 490, 20);
 	pTextureShader->Render(deviceContext, m_countDart->GetIndexCount(),
 		worldMatrix, baseViewMatrix, orthoMatrix, m_countDart->GetTexture());
@@ -358,8 +336,9 @@ int ScoreUI::checkScore()
 			m_totalscore += 10 * m_curLevel;
 			m_curscore = 1;
 		}
-
+		CountGage();
 	}
+
 
 	return 0;
 }
@@ -373,6 +352,7 @@ void ScoreUI::LevelUp()
 		m_curLevel++;
 		m_levelscore = 0;
 		m_goalScore += 2;
+		m_cnt = 0;
 		dynamic_cast<Dart*>(m_Dart)->ResetDartCount();
 		dynamic_cast<MovingTree*>(m_pTree)->LevelUp();
 	}
@@ -381,4 +361,30 @@ void ScoreUI::LevelUp()
 		m_gameOver = true;
 	}
 	
+}
+
+void ScoreUI::CountGage()
+{
+	float gage = (m_levelscore*1.f) / (m_goalScore*1.f);
+
+	if (gage > 0.0f&&gage < 0.2f)
+		m_cnt = 1;
+	else if (gage >= 0.2f &&gage < 0.3f)
+		m_cnt = 2;
+	else if (gage >= 0.3f &&gage < 0.4f)
+		m_cnt = 3;
+	else if (gage >= 0.4f &&gage < 0.5f)
+		m_cnt = 4;
+	else if (gage >= 0.5f &&gage < 0.6f)
+		m_cnt = 5;
+	else if (gage >= 0.6f &&gage < 0.7f)
+		m_cnt = 6;
+	else if (gage >= 0.7f &&gage < 0.8f)
+		m_cnt = 7;
+	else if (gage >= 0.8f &&gage < 0.9f)
+		m_cnt = 8;
+	else if (gage >= 0.9f &&gage < 1.0f)
+		m_cnt = 9;
+	if (m_levelscore >= m_goalScore)
+		m_cnt = 10;
 }

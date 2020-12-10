@@ -27,6 +27,7 @@ private:
 	bool checkCollision();
 	int checkScore();
 	void LevelUp();
+	void CountGage();
 
 private:
 	BitmapClass* m_backBoard;
@@ -47,6 +48,7 @@ private:
 	int m_curscore;
 	int m_curLevel;
 	int m_goalScore;
+	int m_cnt;
 
 	float m_effectY;
 	

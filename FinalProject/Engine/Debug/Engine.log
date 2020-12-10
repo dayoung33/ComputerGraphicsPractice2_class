@@ -1,22 +1,22 @@
 ﻿  ScoreUI.cpp
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(48): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(56): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(64): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(72): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(80): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(81): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(82): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(83): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(84): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(85): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(86): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(87): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(88): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(98): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(105): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(104): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(200): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(206): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\rkek3\documents\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(209): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Engine.vcxproj -> C:\Users\rkek3\Documents\GitHub\ComputerGraphicsPractice2_class\FinalProject\Debug\Engine.exe
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(49): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(57): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(65): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(73): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(81): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(82): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(83): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(84): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(85): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(86): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(87): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(88): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(90): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(99): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(106): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(105): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(178): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(184): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\github\computergraphicspractice2_class\finalproject\engine\scoreui.cpp(187): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Engine.vcxproj -> D:\Github\ComputerGraphicsPractice2_class\FinalProject\Debug\Engine.exe
