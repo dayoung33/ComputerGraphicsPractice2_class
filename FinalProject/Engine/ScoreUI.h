@@ -1,7 +1,7 @@
 #pragma once
 #include "GameSystem.h"
 class GameObject;
-
+class SoundClass;
 class ScoreUI : public GameSystem
 {
 public:
@@ -40,6 +40,7 @@ private:
 	GameObject*	 m_DartBoard;
 	GameObject*  m_pTree;
 	ID3D11DeviceContext* m_deviceContext;
+	SoundClass* m_collSound;
 
 	int m_totalscore;
 	int m_levelscore;

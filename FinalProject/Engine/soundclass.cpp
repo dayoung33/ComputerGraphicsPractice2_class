@@ -42,12 +42,43 @@ bool SoundClass::Initialize(HWND hwnd)
 	}
 
 	// Play the wave file now that it has been loaded.
-	result = PlayWaveFile();
+	result = PlayWaveFileLoop();
 	if(!result)
 	{
 		return false;
 	}
 
+	return true;
+}
+
+bool SoundClass::InitializeSound(HWND hwnd, const char* filename)
+{
+	bool result;
+	// Initialize direct sound and the primary sound buffer.
+	result = InitializeDirectSound(hwnd);
+	if (!result)
+	{
+		return false;
+	}
+	// Load a wave audio file onto a secondary buffer.
+	result = LoadWaveFile(filename, &m_secondaryBuffer1);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool SoundClass::PlayGameSound()
+{
+	bool result;
+	// Play the wave file now that it has been loaded.
+	result = PlayWaveFile();
+	if (!result)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -345,5 +376,30 @@ bool SoundClass::PlayWaveFile()
 		return false;
 	}
 
+	return true;
+}
+
+bool SoundClass::PlayWaveFileLoop()
+{
+	HRESULT result;
+
+	// Set position at the beginning of the sound buffer.
+	result = m_secondaryBuffer1->SetCurrentPosition(0);
+	if (FAILED(result))
+	{
+		return false;
+	}
+	// Set volume of the buffer to 100%.
+	result = m_secondaryBuffer1->SetVolume(-500);
+	if (FAILED(result))
+	{
+		return false;
+	}
+	// Play the contents of the secondary sound buffer.
+	result = m_secondaryBuffer1->Play(0, 0, DSBPLAY_LOOPING);
+	if (FAILED(result))
+	{
+		return false;
+	}
 	return true;
 }

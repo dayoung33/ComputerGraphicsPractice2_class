@@ -2,6 +2,7 @@
 #include "Dart.h"
 #include "DartBoard.h"
 #include "MovingTree.h"
+#include "soundclass.h"
 
 ScoreUI::ScoreUI()
 {
@@ -19,6 +20,7 @@ ScoreUI::ScoreUI()
 	m_curscore = 0;
 	m_isColl = false;
 	m_effectY = 0.f;
+	m_collSound = 0;
 }
 
 ScoreUI::ScoreUI(const ScoreUI &)
@@ -105,6 +107,8 @@ void ScoreUI::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 	m_scoreText->SetTotalScore(m_totalscore, deviceContext);
 	m_scoreText->SetLevelScore(m_curLevel,m_levelscore,m_goalScore, deviceContext);
 
+	m_collSound = new SoundClass;
+	m_collSound->InitializeSound(hwnd, "../Engine/data/Shoot.wav");
 
 }
 
@@ -152,12 +156,32 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 
 	D3DXMATRIX matScale;
 	float gage = (m_levelscore*1.f) / (m_goalScore*1.f);
+	if (gage > 0.1f&&gage < 0.2f)
+		gage = 0.1f;
+	else if (gage > 0.2f &&gage < 0.3f)
+		gage = 0.2f;
+	else if (gage > 0.3f &&gage < 0.4f)
+		gage = 0.3f;
+	else if (gage > 0.4f &&gage < 0.5f)
+		gage = 0.4f;
+	else if (gage > 0.5f &&gage < 0.6f)
+		gage = 0.5f;
+	else if (gage > 0.6f &&gage < 0.7f)
+		gage = 0.6f;
+	else if (gage > 0.7f &&gage < 0.8f)
+		gage = 0.7f;
+	else if (gage > 0.8f &&gage < 0.9f)
+		gage = 0.8f;
+	else if (gage > 0.9f &&gage < 1.0f)
+		gage = 0.9f;
 	if (m_levelscore >= m_goalScore)
 		gage = 1.f;
-	D3DXMatrixScaling(&matScale, gage, 1.0f, 1.0f);
-	m_scoreBar->Render(deviceContext, 272-(196 * (1.f - gage)), 62);
-	pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
-		worldMatrix*matScale, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+	if (gage > 0.f) {
+		D3DXMatrixScaling(&matScale, gage, 1.0f, 1.0f);
+		m_scoreBar->Render(deviceContext, 272 /*- (196 * (1.f - gage))*/, 62);
+		pTextureShader->Render(deviceContext, m_scoreBar->GetIndexCount(),
+			worldMatrix*matScale, baseViewMatrix, orthoMatrix, m_scoreBar->GetTexture());
+	}
 
 	m_countDart->Render(deviceContext, 490, 20);
 	pTextureShader->Render(deviceContext, m_countDart->GetIndexCount(),
@@ -191,6 +215,13 @@ void ScoreUI::Render(ID3D11DeviceContext *deviceContext, TextureShaderClass *pTe
 
 void ScoreUI::Shutdown()
 {
+	if (m_collSound)
+	{
+		m_collSound->Shutdown();
+		delete m_collSound;
+		m_collSound = 0;
+	}
+
 	if (m_backBoard)
 	{
 		m_backBoard->Shutdown();
@@ -271,6 +302,7 @@ bool ScoreUI::checkCollision()
 int ScoreUI::checkScore()
 {
 	if (!m_scoreCheck) {
+		m_collSound->PlayGameSound();
 		m_scoreCheck = true;
 		D3DXVECTOR2 dPos = { m_Dart->GetPos().x,m_Dart->GetPos().y };
 		D3DXVECTOR2 bPos = { m_DartBoard->GetPos().x,m_DartBoard->GetPos().y };

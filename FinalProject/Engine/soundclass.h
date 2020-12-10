@@ -51,6 +51,8 @@ public:
 	~SoundClass();
 
 	bool Initialize(HWND);
+	bool InitializeSound(HWND, const char*);
+	bool PlayGameSound();
 	void Shutdown();
 
 private:
@@ -61,6 +63,8 @@ private:
 	void ShutdownWaveFile(IDirectSoundBuffer8**);
 
 	bool PlayWaveFile();
+	bool PlayWaveFileLoop();
+
 
 private:
 	IDirectSound8* m_DirectSound;
